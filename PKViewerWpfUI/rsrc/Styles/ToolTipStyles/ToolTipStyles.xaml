@@ -1,0 +1,40 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!--Стиль Тултипа-->
+    <Style x:Key="{x:Type ToolTip}" TargetType="ToolTip">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Background" Value="{DynamicResource TopPanelBgBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+        <Setter Property="Placement" Value="Top"/>
+        <Setter Property="HorizontalOffset" Value="-3"/>
+        <Setter Property="VerticalOffset" Value="-12"/>
+        <Setter Property="FontSize" Value="14"/>
+        <!--Шаблон тултипа-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToolTip">
+                    <!--Внешний бордер-->
+                    <Border
+                        UseLayoutRounding="True"
+                        Background="{TemplateBinding Background}" 
+                        BorderBrush="{DynamicResource PanelBorderBrush}" 
+                        BorderThickness="1"
+                        Padding="5 4 5 3">
+                        <!--Содержимое внутри-->
+                        <ContentPresenter 
+                            HorizontalAlignment="Stretch" 
+                            VerticalAlignment="Stretch"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <!--Триггеры шаблона-->
+        <Style.Triggers>
+            <!--Триггер если содержимое Null-->
+            <Trigger Property="Content" Value="{x:Null}">
+                <Setter Property="Visibility" Value="Collapsed"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

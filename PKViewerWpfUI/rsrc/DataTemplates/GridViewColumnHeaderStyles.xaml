@@ -1,0 +1,51 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:cnvrt="clr-namespace:WpfMvvm.Infrastructure.Converters;assembly=WpfMvvm">
+
+    <!--Шаблон заголовков SimpleText-->
+    <DataTemplate x:Key="SimpleTextHeader">
+        <DataTemplate.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="./../Styles/ListViewStyles/ToggleButtonStyles.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </DataTemplate.Resources>
+        <ToggleButton 
+            Style="{StaticResource TglBtnSimpleStyle}"
+            Content="{Binding DataContext, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}"/>
+    </DataTemplate>
+
+    <!--Шаблон заголовка SimpleToggle-->
+    <DataTemplate x:Key="SimpleToggleHeader">
+        <DataTemplate.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="./../Styles/ToggleButtonStyles/ToggleButtonStyles.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+
+                <cnvrt:ListViewAllGroupIsCheckedConverter x:Key="ItemsConverter"/>
+            </ResourceDictionary>
+        </DataTemplate.Resources>
+        <ToggleButton 
+            Style="{StaticResource ToggleButtonStyle}"
+            Margin="0 3 -3 0"
+            Content="{TemplateBinding Content}"
+            Tag="{Binding IsChecked, RelativeSource={RelativeSource Self}, Converter={StaticResource ItemsConverter}, Mode=OneWay}">
+        </ToggleButton>
+    </DataTemplate>
+
+    <!--Шаблон сортируемого заголовка-->
+    <DataTemplate x:Key="SortedHeader">
+        <DataTemplate.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="./../Styles/ListViewStyles/ToggleButtonStyles.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </DataTemplate.Resources>
+        <ToggleButton
+            Style="{StaticResource TglBtnSortStyle}"
+            Content="{Binding DataContext, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}"/>
+    </DataTemplate>    
+</ResourceDictionary>

@@ -1,0 +1,68 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--Присоединенные словари-->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="./../../Brushes/CommonBrushes.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--Стиль тумблера-->
+    <Style x:Key="ToggleButtonStyle"
+        TargetType="{x:Type ToggleButton}">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="IsThreeState" Value="False"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="MinHeight" Value="19"/>
+        <Setter Property="MaxHeight" Value="19"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Background" Value="{DynamicResource MainPanelBgBrush}"/>
+        <!--Шаблон тумблера-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <!--Внешний бордер-->
+                    <Border x:Name="ellipseBorder"
+                        SnapsToDevicePixels="True"
+                        Margin="0 0 3 0"
+                        Background="{TemplateBinding Background}" 
+                        BorderBrush="{DynamicResource ThemeSwitcherMainBorderBrush}"
+                        Width="23"
+                        MinHeight="15"
+                        MaxHeight="15"
+                        VerticalAlignment="Stretch"
+                        BorderThickness="1" 
+                        CornerRadius="6">
+                        <!--Кругляшок внутри-->
+                        <Ellipse x:Name="ellipse"
+                             Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                             Fill="{DynamicResource ThemeSwitcherMainBorderBrush}"
+                             Margin="2"/>
+                    </Border>
+                    <!--Триггеры шаблона-->
+                    <ControlTemplate.Triggers>
+                        <!--Триггер если чекнут-->
+                        <Trigger Property="ToggleButton.IsChecked" Value="True">
+                            <Setter TargetName="ellipse" Property="Path.Fill" Value="{StaticResource GreenBrush}"/>
+                            <Setter TargetName="ellipseBorder" Property="Border.BorderBrush" Value="{StaticResource GreenBrush}"/>
+                            <Setter TargetName="ellipse" Property="Path.HorizontalAlignment" Value="Right"/>
+                        </Trigger>
+                        <!--Триггер если не чекнут-->
+                        <Trigger Property="ToggleButton.IsChecked" Value="False">
+                            <Setter TargetName="ellipse" Property="Path.HorizontalAlignment" Value="Left"/>
+                        </Trigger>
+                        <!--Триггер если не доступен-->
+                        <Trigger Property="ToggleButton.IsEnabled" Value="False">
+                            <Setter TargetName="ellipse" Property="Path.Fill" Value="{DynamicResource ThemeSwitcherMainBorderBrush}"/>
+                            <Setter TargetName="ellipseBorder" Property="Border.BorderBrush" Value="{DynamicResource ThemeSwitcherMainBorderBrush}"/>
+                        </Trigger>
+                        <!--Триггер если мыш над ним-->
+                        <Trigger Property="ToggleButton.IsMouseOver" Value="True">
+                            <Setter TargetName="ellipseBorder" Property="Border.Background" Value="{DynamicResource HighlightBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

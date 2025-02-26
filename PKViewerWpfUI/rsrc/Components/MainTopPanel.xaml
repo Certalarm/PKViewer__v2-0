@@ -1,0 +1,201 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    xmlns:vm="clr-namespace:WpfMvvm.ViewModels.MainWindow.TopPanel;assembly=WpfMvvm"
+                    xmlns:cnvrt="clr-namespace:WpfMvvm.Infrastructure.Converters;assembly=WpfMvvm"
+                    xmlns:cmd="clr-namespace:WpfMvvm.Infrastructure.Commands;assembly=WpfMvvm">
+
+    <!--Адрес программы в интернете-->
+    <system:String x:Key="HomePageUrl">http://certalarm.ru/%D0%9F%D0%A0%D0%9E%D0%93%D0%A0%D0%90%D0%9C%D0%9C%D0%AB/#pkviewer</system:String>
+    
+    <!--Основной бордер верхней панели-->
+    <Border
+        x:Key="MainTopPanel"
+        DockPanel.Dock="Top"
+        d:DataContext="{d:DesignInstance vm:TopPanelVM}"
+        DataContext="{Binding DataContext.TopPanelVM, RelativeSource={RelativeSource AncestorType=Window}, IsAsync=True}"
+        VerticalAlignment="Top"
+        BorderThickness="0 1 0 1"
+        Background="{DynamicResource TopPanelBgBrush}"
+        BorderBrush="{DynamicResource PanelBorderBrush}">
+        <!--Ресурсы основного бордера-->
+        <Border.Resources>
+            <ResourceDictionary>
+                <!--Фильтр строк в ListView (с удаленными/без удаленных)-->
+                <cnvrt:ListViewFilterConverter x:Key="FilterConverter"/>
+                <!--Команда на обновление Считывателей-->
+                <cmd:UpdateReadersCommand x:Key="UpdateCommand"/>
+                <!--Команда на открытие странички в интернете-->
+                <cmd:OpenWwwCommand x:Key="OpenWwwCommand"/>
+                <!--Команда на показ ошибок считывателей-->
+                <cmd:ShowErrorsCommand x:Key="ShowErrorsCommand"/>
+                <!--Присоединенные словари-->
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="./../VectorPaths.xaml"/>
+                    <ResourceDictionary Source="./KeyMediaCombobox.xaml"/>
+                    <ResourceDictionary Source="./ReaderCombobox.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Border.Resources>
+        <!--Grid самой TopPanel-->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <!--Панель со считывателями, кл. носителями и кнопкой "обновить"-->
+            <StackPanel 
+                Grid.Column="0"
+                Orientation="Horizontal">
+                <!--Панель для Надписи и комбобокса "Считыватели"-->
+                <StackPanel
+                    Margin="8 0 0 0">
+                    <Grid
+                        HorizontalAlignment="Stretch"
+                        Margin="0 7 0 0">
+                        <!--Надпись "Считыватель"-->
+                        <TextBlock 
+                            Text="{DynamicResource Reader2}"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"/>
+                        <!--Комбобокс с выбором считывателей-->
+                        <StaticResource ResourceKey="ReaderCombobox"/>
+                    </Grid>
+                    <!--Панель для Надписи и комбобокса "Кл. носители"-->
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Margin="0 5 0 7">
+                        <!--Надпись "Кл. носитель"-->
+                        <TextBlock 
+                            Text="{DynamicResource KeyMedia2}"
+                            VerticalAlignment="Center"/>
+                        <!--Комбобокс с выбором кл. носителей-->
+                        <StaticResource ResourceKey="KeyMediaCombobox"/>
+                    </StackPanel>
+                </StackPanel>
+                <!--Кнопка "Обновить"-->
+                <Button
+                    Content="{DynamicResource BtnUpdate}"
+                    ToolTip="{DynamicResource BtnUpdateDesc}"
+                    Command="{StaticResource UpdateCommand}"
+                    VerticalContentAlignment="Stretch"
+                    Margin="5 7"
+                    Padding="3 0"/>
+            </StackPanel>
+            <!--Панель с двумя чекбоксами: "Начинать открытый ключ..." и "Показать удаленные..." -->
+            <StackPanel 
+                Grid.Column="1"
+                VerticalAlignment="Bottom"
+                Margin="10 0 0 7">
+                <!--Чекбокс: "Начинать открытый ключ..."-->
+                <CheckBox
+                    Content="{DynamicResource ChkBoxShowPKeyPrefix}"
+                    IsChecked="{Binding IsPublicKeyPrefixPresent, Mode=TwoWay}"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Left"/>
+                <!--Чекбокс "Показать удаленные..."-->
+                <CheckBox
+                    Content="{DynamicResource ChkBoxShowRemoved}"
+                    IsChecked="{Binding IsDeletedPresent, Mode=TwoWay, Converter={StaticResource FilterConverter}}"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Left"/>
+            </StackPanel>
+            <!--Панель с круглыми кнопками: "Посетить сайт..." и "Посмотреть ошибки считывателей"-->
+            <StackPanel 
+                Grid.Column="2"
+                VerticalAlignment="Center"
+                Margin="3 0 4 0 ">
+                <StackPanel.Resources>
+                    <!--Шаблон круглой кнопки-->
+                    <ControlTemplate x:Key="BtnRoundTemplate" TargetType="Button">
+                        <Grid 
+                            x:Name="BtnRoundGrid" 
+                            Opacity=".6"
+                            UseLayoutRounding="True">
+                            <Ellipse Fill="{TemplateBinding Background}"/>
+                            <ContentPresenter />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="BtnRoundGrid" Property="Grid.Opacity" Value="1"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                    <!--Стиль круглой кнопки-->
+                    <Style TargetType="Button">
+                        <Setter Property="Cursor" Value="Hand"/>
+                        <Setter Property="Height" Value="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"/>
+                        <Setter Property="TextOptions.TextRenderingMode" Value="ClearType"/>
+                        <Setter Property="BorderBrush" Value="{x:Null}"/>
+                        <Setter Property="Width" Value="24"/>
+                        <Setter Property="Padding"  Value="0"/>
+                        <Setter Property="Template" Value="{StaticResource BtnRoundTemplate}"/>
+                    </Style>
+                    <!--Стиль вьюбокса для "Показать ошибки считывателей..."-->
+                    <Style TargetType="Viewbox">
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="Margin" Value="0"/>
+                    </Style>
+                    <!--Стиль канвы для "Показать ошибки считывателей..."-->
+                    <Style TargetType="Canvas">
+                        <Setter Property="Width" Value="22"/>
+                        <Setter Property="Height" Value="22"/>
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                    </Style>
+                </StackPanel.Resources>
+                <!--Кнопка "Посетить сайт..."-->
+                <Button
+                    ToolTip="{DynamicResource BtnWebDesc}"
+                    Background="{StaticResource DeepSkyBlueBrush}"
+                    Command="{StaticResource OpenWwwCommand}"
+                    CommandParameter="{StaticResource HomePageUrl}">
+                    <Canvas
+                        Width="24"
+                        Height="24"
+                        UseLayoutRounding="True">
+                        <Path
+                            Width="24"
+                            Height="24"
+                            Stroke="{StaticResource YellowBrush}"
+                            Style="{StaticResource AliasedIconPathStyle}"
+                            Data="{StaticResource WwwData}"/>
+                        <Path
+                            Width="24"
+                            Height="24"
+                            Stroke="{StaticResource YellowBrush}"
+                            Style="{StaticResource BaseIconPathStyle}"
+                            Data="{StaticResource WwwData2}"/>
+                    </Canvas>
+                </Button>
+                <!--Кнопка "Показать ошибки считывателей..."-->
+                <Button
+                    ToolTip="{DynamicResource BtnErrorDesc}"
+                    Command="{StaticResource ShowErrorsCommand}"
+                    Background="{StaticResource ColorlessBrush}"
+                    Margin="0 5 0 0">
+                    <Viewbox
+                        Width="22" 
+                        Height="22">
+                        <Canvas>
+                            <Path 
+                                Style="{StaticResource ErrorReportStyle_1}" 
+                                Fill="{StaticResource YellowBrush}" 
+                                Stroke="{StaticResource RedBrush}"/>
+                            <Path 
+                                Style="{StaticResource ErrorReportStyle_2}" 
+                                Stroke="{StaticResource RedBrush}"/>
+                            <Path 
+                                Style="{StaticResource ErrorReportStyle_3}" 
+                                Stroke="{StaticResource RedBrush}"/>
+                        </Canvas>
+                    </Viewbox>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+</ResourceDictionary>

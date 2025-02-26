@@ -1,0 +1,194 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    xmlns:cnvrt="clr-namespace:WpfMvvm.Infrastructure.Converters;assembly=WpfMvvm">
+
+    <!--ШАБЛОН ЯЧЕЙКИ 'ИМЯ КОНТЕЙНЕРА' [Binding NameHolder]-->
+    <DataTemplate x:Key="NameCellTemplate">
+        <DataTemplate.Resources>
+            <ResourceDictionary>
+                <!--ПРИСОЕДИНЕННЫЕ СЛОВАРИ ДЛЯ 'ИМЯ КОНТЕЙНЕРА'-->
+                <ResourceDictionary.MergedDictionaries>
+                    <!--СЛОВАРЬ ВЕКТОРНЫЕ ИКОНКИ-->
+                    <ResourceDictionary Source="./../VectorPaths.xaml"/>
+                    <!--СЛОВАРИ СТИЛЕЙ ДЛЯ ЯЧЕЙКИ-->
+                    <ResourceDictionary Source="./../Styles/ListViewStyles/GridViewCellCommonStyles.xaml"/>
+                    <ResourceDictionary Source="./../Styles/ListViewStyles/GridViewCellNameStyles.xaml"/>
+                    <!--СЛОВАРЬ СТИЛЕЙ ДЛЯ POPUP-->
+                    <ResourceDictionary Source="./../Styles/PopupStyles/PopupStyle.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+                <!--Конвертер для разных DPI--> 
+                <cnvrt:DpiConverter x:Key="DpiConverter"/>
+                <!--Конвертер выбора шаблона, при наведении мыши-->
+                <cnvrt:MouseOverToTemplateConverter x:Key="MouseConverter"/>
+                <!--Стиль бордера иконки-->
+                <Style x:Key="IconBorderStyle" TargetType="{x:Type Border}">
+                    <Setter Property="Background" Value="{StaticResource ColorlessBrush}"/>
+                    <Setter Property="BorderBrush" Value="{Binding Tag, ElementName=IconStackPanel}"/>
+                    <Setter Property="BorderThickness" Value="1 0 0 0"/>
+                    <Setter Property="UseLayoutRounding" Value="True"/>
+                </Style>
+                <!--Стиль зачеркнутого текста-->
+                <Style x:Key="StrokedTextBlockStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseTextBlockStyle}">
+                    <Style.Triggers>
+                        <DataTrigger 
+                            Binding="{Binding DataContext.NameHolder.IsDeleted, RelativeSource={RelativeSource AncestorType=ListViewItem}}" 
+                            Value="True">
+                            <Setter Property="TextDecorations" Value="Strikethrough"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+                <!--ШАБЛОН ИКОНОК В ЯЧЕЙКЕ 'ИМЯ КОНТЕЙНЕРА'-->
+                <ControlTemplate 
+                    x:Key="ContentControlTemplate" TargetType="{x:Type ContentControl}">
+                    <!--ВНЕШНИЙ БОРДЕР ИКОНКИ-->
+                    <Border 
+                        x:Name="IconBorder" 
+                        Style="{StaticResource IconBorderStyle}">
+                        <!--ВНУТРЕННИЙ БОРДЕР ИКОНКИ-->
+                        <Border 
+                            Name="IconInnerBorder"
+                            UseLayoutRounding="True"
+                            BorderThickness="{Binding Source='1', Converter={StaticResource DpiConverter}}">
+                            <!--СОДЕРЖИМОЕ ИКОНКИ-->
+                            <ContentPresenter
+                                Margin="{Binding Source='1', Converter={StaticResource DpiConverter}}"
+                                Content="{TemplateBinding Content}"/>
+                        </Border>
+                    </Border>
+                    <!--ТРИГГЕРЫ ДЛЯ ИКОНКИ-->
+                    <ControlTemplate.Triggers>
+                        <!--ТРИГГЕР КОГДА МЫШЬ НАД ИКОНКОЙ-->
+                        <Trigger SourceName="IconBorder" Property="IsMouseOver" Value="True">
+                            <!--МЕНЯЕМ ЦВЕТ ВНУТРЕННЕГО БОРДЕРА-->
+                            <Setter TargetName="IconInnerBorder" Property="BorderBrush" Value="{DynamicResource TextBrush}"/>
+                            <!--МЕНЯЕМ ШАБЛОН POPUP НАД ИКОНКОЙ (НЕЯВНО, ЧЕРЕЗ КОНВЕРТЕР)-->
+                            <Setter 
+                                TargetName="IconBorder" 
+                                Property="Tag" 
+                                Value="{Binding IsMouseOver, RelativeSource={RelativeSource Self}, 
+                                    Converter={StaticResource MouseConverter}, Mode=OneWay}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </ResourceDictionary>
+        </DataTemplate.Resources>
+        <!--САМ ШАБЛОН ЯЧЕЙКИ 'ИМЯ КОНТЕЙНЕРА'-->
+        <Border
+            Style="{StaticResource BaseBorderStyle}"
+            DataContext="{Binding NameHolder.Name}">
+            <!--ВНУТРЕННИЙ ГРИД-->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <!--ТЕКСТОВАЯ ЧАСТЬ-->
+                <TextBlock
+                    Grid.Column="0"
+                    Style="{StaticResource StrokedTextBlockStyle}"/>
+                <!--ПАНЕЛЬ ИКОНОК-->
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Border
+                        Grid.Row="0"
+                        MinHeight="1"/>
+                    <StackPanel
+                        x:Name="IconStackPanel"
+                        Grid.Row="1"
+                        DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListViewItem}, Mode=OneWay}"
+                        Style="{StaticResource StackPanelStyle}">
+                        <!--ИКОНКА 'СЕРТИФИКАТ' [IsCertPresent]-->
+                        <ContentControl Template="{StaticResource ContentControlTemplate}" Tag="0">
+                            <Border Style="{StaticResource BorderCertStyle}">
+                                <Canvas
+                                    Width="16"
+                                    Height="16">
+                                    <Path
+                                        Style="{StaticResource AliasedIconPathStyle}"
+                                        Data="{StaticResource CertificateData}"/>
+                                    <Path
+                                        Style="{StaticResource BaseIconPathStyle}"
+                                        Data="{StaticResource CertificateData2}"/>
+                                </Canvas>
+                            </Border>
+                        </ContentControl>
+                    <!--ИКОНКА 'замОк' [IsEncrypted]-->
+                        <ContentControl Template="{StaticResource ContentControlTemplate}" Tag="1">
+                            <Border Style="{StaticResource BorderEncryptedStyle}">
+                                <Canvas
+                                    Width="16"
+                                    Height="16">
+                                    <Path
+                                        Style="{StaticResource AliasedIconPathStyle}"
+                                        Data="{StaticResource EncryptedData}"/>
+                                    <Path
+                                        Style="{StaticResource BaseIconPathStyle}"
+                                        Data="{StaticResource EncryptedData2}"/>
+                                </Canvas>
+                            </Border>
+                        </ContentControl>
+                    <!--ИКОНКА 'ЭКСПОРТ' [IsExportable]-->
+                    <ContentControl Template="{StaticResource ContentControlTemplate}" Tag="2">
+                            <Border Style="{StaticResource BorderExportableStyle}">
+                                <Canvas
+                                    Width="16"
+                                    Height="16">
+                                    <Path
+                                        Style="{StaticResource AliasedIconPathStyle}"
+                                        Data="{StaticResource ExportedData}"/>
+                                    <Path
+                                        Style="{StaticResource BaseIconPathStyle}"
+                                        Data="{StaticResource ExportedData2}"/>
+                                </Canvas>
+                            </Border>    
+                        </ContentControl>
+                    <!--ИКОНКА 'КОРЗИНА' [IsDeleted]-->
+                    <ContentControl Template="{StaticResource ContentControlTemplate}" Tag="3">
+                        <Border Style="{StaticResource BorderDeletedStyle}">
+                            <Path 
+                                Style="{StaticResource AliasedIconPathStyle}"
+                                Data="{StaticResource DeletedData}"/>
+                        </Border>
+                    </ContentControl>
+                    <!--ВСПЛЫВАЮЩИЙ POPUP НАД ИКОНКАМИ-->
+                    <Popup
+                        Style="{StaticResource PopupStyle}"
+                        PlacementTarget="{Binding RelativeSource={RelativeSource  AncestorType=StackPanel}}">
+                        <StackPanel 
+                            Orientation="Vertical"
+                            SnapsToDevicePixels="True">
+                            <Border
+                                x:Name="VisibleBorder"
+                                BorderThickness="1"
+                                BorderBrush="{DynamicResource PanelBorderBrush}"
+                                Background="{DynamicResource TopPanelBgBrush}"
+                                TextOptions.TextFormattingMode="Display"
+                                TextOptions.TextRenderingMode="ClearType">
+                                <ContentPresenter
+                                    Margin="5 2 5 3"
+                                    Content="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=Popup}}"/>
+                            </Border>
+                            <Border
+                                MinHeight="12"
+                                Width="80"
+                                Margin="5 0 0 0"
+                                Background="{DynamicResource MainPanelBgBrush}"
+                                Opacity="0.05"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"/>
+                        </StackPanel>
+                    </Popup>
+                </StackPanel>
+                    <Border
+                        Grid.Row="2"
+                        MinHeight="1"/>
+                </Grid>
+            </Grid>
+        </Border>
+    </DataTemplate>
+</ResourceDictionary>

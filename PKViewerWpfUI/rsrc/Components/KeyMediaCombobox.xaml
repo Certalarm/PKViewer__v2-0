@@ -1,0 +1,51 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:vm="clr-namespace:WpfMvvm.ViewModels.MainWindow.CtrlCombobox;assembly=WpfMvvm"
+                    xmlns:cnvrt="clr-namespace:WpfMvvm.Infrastructure.Converters;assembly=WpfMvvm">
+    <ComboBox 
+        x:Key="KeyMediaCombobox"
+        DataContext="{Binding DataContext.KeyMediaComboBoxVM, 
+            RelativeSource={RelativeSource AncestorType={x:Type Border}}}"
+        ToolTip="{DynamicResource KeyMediaDesc}"
+        HorizontalAlignment="Stretch" 
+        Width="150" Height="22"
+        Margin="5 0 0 0">
+        <ComboBox.Resources>
+            <!--КОНВЕРТЕР ДЛЯ VM [[[ Изменять только левую часть!!! ]]]-->
+            <cnvrt:ComboBoxItemVmTitleToNameMediaConverter x:Key="ItemConverter"/>
+            <!--КОНВЕРТЕР ДЛЯ SelectionChanged [[[ Изменять только левую часть!!! ]]]-->
+            <cnvrt:KeyMediaSelectionChangedConverter  x:Key="SelectionChangedConverter"/>
+            <!--#region НЕ МЕНЯТЬ!!!-->
+            <!--ШАБЛОН ДЛЯ VM [[[ Не изменять!!! ]]]-->
+            <DataTemplate DataType="{x:Type vm:CtrlComboboxItemVM}">
+                <StackPanel
+                    Style="{StaticResource ItemStackPanelStyle}"
+                    DataContext="{Binding ., Converter={StaticResource ResourceKey=ItemConverter}}">
+                    <Border 
+                        x:Name="LeftPartItem"
+                        Style="{StaticResource ItemBorderStyle}">
+                        <ContentPresenter Content="{Binding .}"/>
+                    </Border>
+                    <TextBlock 
+                        x:Name="RightPartItem"
+                        Style="{StaticResource ItemTextBlockStyle}"/>
+                </StackPanel>
+                <DataTemplate.Triggers>
+                    <StaticResource ResourceKey="ItemHideCtrlTrigger"/>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+            <!--СТИЛЬ ComboBox'a [[[ Не изменять!!! ]]]-->
+            <Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource BaseComboBoxStyle}">
+                <Style.Triggers>
+                    <!--ТРИГГЕР НА SelectionChanged-->
+                    <Trigger Property="ComboBox.IsDropDownOpen" Value="False">
+                        <Setter Property="ComboBox.IsEnabled" Value="{Binding ., Converter={StaticResource SelectionChangedConverter}}"/>
+                        <Setter Property="ComboBox.IsReadOnly" Value="{Binding SelectedIndex, Converter={StaticResource SelectionChangedConverter}}"/>
+                        <Setter Property="ComboBox.ToolTip" Value="{x:Null}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <!--#endregion-->
+        </ComboBox.Resources>
+    </ComboBox>
+</ResourceDictionary>

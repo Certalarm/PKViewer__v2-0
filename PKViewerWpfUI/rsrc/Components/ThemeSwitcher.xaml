@@ -1,0 +1,133 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    xmlns:vm="clr-namespace:WpfMvvm.ViewModels.MainWindow.ThemeSwitcher;assembly=WpfMvvm"
+                    xmlns:cmd="clr-namespace:WpfMvvm.Infrastructure.Commands;assembly=WpfMvvm">
+    
+    <ToggleButton x:Key="ThemeSwitcher"
+        d:DataContext="{d:DesignInstance vm:ThemeSwitcherVM}"
+        Margin="1 0 5 0"
+        DataContext="{Binding DataContext.ThemeSwitcherVM,
+            RelativeSource={RelativeSource AncestorType={x:Type StatusBar}}, IsAsync=True}"
+        ToolTip="{DynamicResource ThemeSwitcherDesc}"
+        IsChecked="{Binding IsChecked, Mode=TwoWay}">
+        <ToggleButton.Resources>
+            <ResourceDictionary>
+                <!--ПРИСОЕДИНЕННЫЕ СЛОВАРИ РЕСУРСОВ-->
+                <ResourceDictionary.MergedDictionaries>
+                    <!--СЛОВАРЬ РЕСУРСОВ ДЛЯ КАРТИНОК ДЕНЬ/НОЧЬ-->
+                    <ResourceDictionary Source="./../VectorPaths.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+                <!--КОМАНДА НА СМЕНУ ТЕМ-->
+                <cmd:SwitchThemeCommand x:Key="SwitchThemeCommand"/>
+                <!--ПРОЗРАЧНОСТЬ ДЛЯ ВКЛ/ВЫКЛ-->
+                <system:Double x:Key="OpacityOff">0.4</system:Double>
+                <system:Double x:Key="OpacityOn">1</system:Double>
+                <!--ТРИГГЕРЫ-->
+                <!--ТРИГГЕРЫ НА IsCHECKED-->
+                <Trigger x:Key="LightTrigger" Property="ToggleButton.IsChecked" Value="False">
+                    <Setter Property="Border.Opacity" Value="{StaticResource OpacityOn}">
+                        <Setter.TargetName>LeftBorder</Setter.TargetName>
+                    </Setter>
+                    <Setter Property="Border.Opacity" Value="{StaticResource OpacityOff}">
+                        <Setter.TargetName>RightBorder</Setter.TargetName>
+                    </Setter>
+                </Trigger>
+                <Trigger x:Key="DarkTrigger" Property="ToggleButton.IsChecked" Value="True">
+                    <Setter Property="Border.Opacity" Value="{StaticResource OpacityOff}">
+                        <Setter.TargetName>LeftBorder</Setter.TargetName>
+                    </Setter>
+                    <Setter Property="Border.Opacity" Value="{StaticResource OpacityOn}">
+                        <Setter.TargetName>RightBorder</Setter.TargetName>
+                    </Setter>
+                </Trigger>
+                <!--ТРИГГЕР НА IsMouseOver-->
+                <Trigger x:Key="MouseOverTrigger" Property="ToggleButton.IsMouseOver" Value="True">
+                    <Setter Property="Border.Background" Value="{DynamicResource HighlightBrush}">
+                        <Setter.TargetName>MainBorder</Setter.TargetName>
+                    </Setter>
+                </Trigger>
+                <!--СТИЛИ-->
+                <!--CТИЛЬ КРУГЛЕШКА С КАРТИНКОЙ-->
+                <Style x:Key="CircleBorder"
+                    TargetType="{x:Type Border}">
+                    <Setter Property="UseLayoutRounding" Value="False"/>
+                    <Setter Property="Height" Value="18"/>
+                    <Setter Property="Width" Value="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Mode=OneWay}"/>
+                    <Setter Property="Margin" Value="1"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="CornerRadius" Value="9"/>
+                </Style>
+                <!--СТИЛЬ ViewBox'a ДЛЯ КАРТИКНИ-->
+                <Style x:Key="InnerViewbox"
+                    TargetType="Viewbox">
+                    <Setter Property="UseLayoutRounding" Value="False"/>
+                    <Setter Property="Margin" Value="1"/>
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalAlignment" Value="Stretch"/>
+                </Style>
+                <!--СТИЛЬ САМОГО ToggleButton'a-->
+                <Style x:Key="{x:Type ToggleButton}"
+                    TargetType="ToggleButton" 
+                    BasedOn="{StaticResource {x:Type ToggleButton}}">
+                    <Setter Property="SnapsToDevicePixels" Value="True"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                    <Setter Property="IsThreeState" Value="False"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="Width" Value="44"/>
+                    <Setter Property="Height" Value="22"/>
+                    <Setter Property="Command" Value="{StaticResource SwitchThemeCommand}"/>
+                    <Setter Property="CommandParameter" Value="{Binding IsChecked, RelativeSource={RelativeSource Self}, Mode=OneWay}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ToggleButton">
+                                <Border x:Name="MainBorder"
+                                    UseLayoutRounding="False"
+                                    Background="{DynamicResource MainPanelBgBrush}"
+                                    BorderBrush="{DynamicResource ThemeSwitcherMainBorderBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="11">
+                                    <DockPanel 
+                                        HorizontalAlignment="Stretch">
+                                        <Border x:Name="LeftBorder"
+                                            Style="{StaticResource CircleBorder}"
+                                            Background="{DynamicResource ThemeSwitcherLeftBorderBgBrush}"
+                                            BorderBrush="{DynamicResource ThemeSwitcherLeftBorderBrush}"
+                                            HorizontalAlignment="Left">
+                                            <Viewbox 
+                                                Style="{StaticResource InnerViewbox}">
+                                                <Path x:Name="Sun"
+                                                    Style="{StaticResource SunPathStyle}"
+                                                    Fill="{DynamicResource ThemeSwitcherSunBrush}"/>
+                                            </Viewbox>
+                                        </Border>
+                                        <Border x:Name="RightBorder"
+                                            Style="{StaticResource CircleBorder}"
+                                            HorizontalAlignment="Right"
+                                            BorderBrush="{DynamicResource ThemeSwitcherRightBorderBrush}">
+                                            <Viewbox
+                                                Style="{StaticResource InnerViewbox}"
+                                                Margin="2">
+                                                <Path x:Name="Moon" 
+                                                    Style="{StaticResource MoonPathStyle}"
+                                                    Fill="{DynamicResource ThemeSwitcherMoonBrush}"/>
+                                            </Viewbox>
+                                        </Border>
+                                    </DockPanel>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <StaticResource ResourceKey="LightTrigger"/>
+                                    <StaticResource ResourceKey="DarkTrigger"/>
+                                    <StaticResource ResourceKey="MouseOverTrigger"/>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ResourceDictionary>
+        </ToggleButton.Resources>
+    </ToggleButton>
+</ResourceDictionary>

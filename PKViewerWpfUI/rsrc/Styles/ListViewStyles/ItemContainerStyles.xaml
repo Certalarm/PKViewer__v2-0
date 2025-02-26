@@ -1,0 +1,67 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--Основной Стиль строки ListView-->
+    <Style x:Key="BaseItemsStyle" TargetType="{x:Type ListViewItem}">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+        <Setter Property="TextOptions.TextRenderingMode" Value="ClearType"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="BorderThickness" Value="0 0 0 1"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource MainGridLinesBrush}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
+        <!--Шаблон строки ListView'a-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                    <!--Основной бордер-->
+                    <Border
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        UseLayoutRounding="True"
+                        CornerRadius="0"
+                        Background="{TemplateBinding Background}">
+                        <!--Представление строки-->
+                        <GridViewRowPresenter
+                            UseLayoutRounding="True"
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                            Width="Auto"
+                            Margin="0"
+                            Content="{TemplateBinding Content}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <!--Триггеры стиля-->    
+        <Style.Triggers>
+            <!--Подкрасить выделенную строку-->
+            <Trigger Property="ListViewItem.IsSelected" Value="True">
+                <Setter Property="Background" Value="{DynamicResource HighlightBrush}"/>
+            </Trigger>
+            <!--Подкрасить строку над которой мышь и не выделена-->
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="ListViewItem.IsSelected" Value="False"/>
+                    <Condition Property="ListViewItem.IsMouseOver" Value="True"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" Value="{DynamicResource RightPanelBgBrush}"/>
+            </MultiTrigger>
+        </Style.Triggers> 
+    </Style>
+
+    <!--Стиль нечетной строки (м.б. четной)-->
+    <Style x:Key="EvenItemsStyle" TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource BaseItemsStyle}">
+        <Setter Property="Background" Value="{StaticResource ColorlessBrush}" />
+    </Style>
+
+    <!--Стиль четной строки (м.б. нечетной)-->
+    <Style x:Key="OddItemsStyle" TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource BaseItemsStyle}">
+        <Setter Property="Background" Value="{DynamicResource MainGridOddItemsBrush}" />
+    </Style>
+</ResourceDictionary>

@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <!--СЛОВАРЬ РЕСУРСОВ ДЛЯ СТИЛЕЙ BUTTONS-->
+        <ResourceDictionary Source="./Styles/ButtonStyles/CommonButtonStyles.xaml"/>
+        <!--СЛОВАРЬ РЕСУРСОВ ДЛЯ СТИЛЕЙ TOOLTIP-->
+        <ResourceDictionary Source="./Styles/ToolTipStyles/ToolTipStyles.xaml"/>
+        <!--СЛОВАРЬ РЕСУРСОВ ДЛЯ СТИЛЕЙ CHECKBOX-->
+        <ResourceDictionary Source="./Styles/CheckBoxStyles/CheckBoxStyles.xaml"/>
+        <!--СЛОВАРЬ РЕСУРСОВ ДЛЯ СТИЛЕЙ COMBOBOX-->
+        <ResourceDictionary Source="./Styles/ComboboxStyles/CtrlComboboxStyles.xaml"/>
+        <ResourceDictionary Source="./DataTemplates/GridViewColumnHeaderStyles.xaml"/>
+    </ResourceDictionary.MergedDictionaries> 
+</ResourceDictionary>

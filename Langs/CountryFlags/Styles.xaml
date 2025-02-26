@@ -1,0 +1,52 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:p="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options">
+
+    <!--BasePath-->
+    <Style x:Key="BasePathStyle" 
+        TargetType="Path" 
+        p:Freeze="True">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Stroke" Value="{x:Null}"/>
+    </Style>
+
+    <!--AliasedPath-->
+    <Style x:Key="AliasedPathStyle" 
+        TargetType="Path" 
+        BasedOn="{StaticResource BasePathStyle}">
+        <Setter Property="RenderOptions.EdgeMode" Value="Aliased"/>
+    </Style>
+
+    <!--Canvas-->
+    <Style x:Key="CanvasStyle" 
+        TargetType="{x:Type Canvas}" 
+        p:Freeze="True">
+        <Setter Property="Width" Value="44"/>
+        <Setter Property="Height" Value="33"/>
+    </Style>
+
+    <!-- ContentControl-->
+    <Style x:Key="FlagStyle" 
+        TargetType="{x:Type ContentControl}">
+        <Style.Resources>
+            <!-- ViewBox -->
+            <Style x:Key="ViewBoxStyle"
+            TargetType="{x:Type Viewbox}">
+                <Setter Property="Width" Value="26.666666667"/>
+                <Setter Property="Height" Value="19"/>
+                <Setter Property="MaxHeight" Value="20"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="VerticalAlignment" Value="Stretch"/>
+            </Style>
+        </Style.Resources>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ContentControl}">
+                    <Viewbox Style="{StaticResource ViewBoxStyle}">
+                        <ContentPresenter/>
+                    </Viewbox>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

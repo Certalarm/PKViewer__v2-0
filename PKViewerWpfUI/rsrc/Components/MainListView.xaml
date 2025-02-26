@@ -1,0 +1,167 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    xmlns:pr="clr-namespace:PKViewer.Components.ProgressRing"
+                    xmlns:sel="clr-namespace:WpfMvvm.Infrastructure.Selectors;assembly=WpfMvvm"
+                    xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase">
+    
+    <!--Основной грид MainListView-->
+    <Grid x:Key="MainListView"
+        DataContext="{Binding DataContext.MainListViewVM, 
+        RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=OneWay}">
+        <!--Ресурсы основного грида-->
+        <Grid.Resources>
+            <ResourceDictionary>
+                <!--Присоединенные словари-->
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="./../Styles/ListViewStyles/ItemContainerStyles.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+                <!--Селектор шаблонов заголовков столбцов--> 
+                <sel:ColumnHeaderTemplateSelector x:Key="HeaderSelector"/>
+                <!--Селектор шаблонов строк ListView'а-->
+                <sel:ItemContainerStylesSelector 
+                    x:Key="ItemsStyleSelector" 
+                    EvenItemsStyle="{StaticResource EvenItemsStyle}" 
+                    OddItemsStyle="{StaticResource OddItemsStyle}"/>
+                <!--Начальная Группировка и сортировка-->
+                <CollectionViewSource x:Key="GroupByTypeAndSortByName"
+                    Source="{Binding DataContext.MainListViewVM.Items,
+                        RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=OneWay}">
+                    <!--Группировка по свойству "Type" (тип криптопровайдера)-->
+                    <CollectionViewSource.GroupDescriptions>
+                        <PropertyGroupDescription PropertyName="Type" />
+                    </CollectionViewSource.GroupDescriptions>
+                    <!--Сортировка сначала по "Type", затем по "DateNotAfterUTC"--> 
+                    <CollectionViewSource.SortDescriptions>
+                        <scm:SortDescription PropertyName="Type" Direction="Ascending"/>
+                        <scm:SortDescription PropertyName="DateNotAfterUTC" Direction="Descending"/>
+                    </CollectionViewSource.SortDescriptions>
+                </CollectionViewSource>
+                <!--Стиль Прелоадера-->
+                <Style x:Key="PreloaderStyle" TargetType="UserControl">
+                    <Style.Triggers>
+                        <!--Триггер на скрытие, если ListView готов-->
+                        <DataTrigger Binding="{Binding IsReady}" Value="True">
+                            <Setter Property="UserControl.Visibility" Value="Hidden"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <!--Основной ListView-->
+        <ListView
+            MaxWidth="2000"
+            FontSize="14"
+            ItemContainerStyleSelector="{StaticResource ItemsStyleSelector}"
+            ItemsSource="{Binding Source={StaticResource GroupByTypeAndSortByName}, Mode=OneWay}"
+            Grid.Column="0"
+            BorderThickness="0 0 0 1"
+            Background="{DynamicResource MainPanelBgBrush}"
+            BorderBrush="{DynamicResource PanelBorderBrush}"
+            IsSynchronizedWithCurrentItem="True"
+            VirtualizingStackPanel.VirtualizationMode="Standard">
+            <!--Ресурсы основного ListView'а-->
+            <ListView.Resources>
+                <ResourceDictionary>
+                    <!--Присоединенные словари-->
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="./../Styles/ListViewStyles/ListViewStyle.xaml"/>
+                        <ResourceDictionary Source="./../Styles/ListViewStyles/GroupItemStyle.xaml"/>
+                        <ResourceDictionary Source="./../DataTemplates/GridViewCellTemplates.xaml"/>
+                        <ResourceDictionary Source="./../DataTemplates/GridViewCellNameTemplate.xaml"/>
+                        <ResourceDictionary Source="./../DataTemplates/GridViewCellPublicKeyTemplate.xaml"/>
+                        <ResourceDictionary Source="./../DataTemplates/PopupTemplates/PopupCertificateTemplate.xaml"/>
+                        <ResourceDictionary Source="./../DataTemplates/PopupTemplates/PopupIsDeletedTemplate.xaml"/>
+                        <ResourceDictionary Source="./../DataTemplates/PopupTemplates/PopupIsEncryptedTemplate.xaml"/>
+                        <ResourceDictionary Source="./../DataTemplates/PopupTemplates/PopupIsExportedTemplate.xaml"/>
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </ListView.Resources>
+            <ListView.View>
+                <!--Вид как таблица-->
+                <GridView
+                    AllowsColumnReorder="False" 
+                    ColumnHeaderTemplateSelector="{StaticResource ResourceKey=HeaderSelector}">
+                    <!--Колонка с переключателем-->
+                    <GridViewColumn
+                        CellTemplate="{StaticResource ResourceKey=ToggleCellTemplate}"
+                        Header=""/>
+                    <!--Колонка "Имя кл. контейнера"-->
+                    <GridViewColumn CellTemplate="{StaticResource ResourceKey=NameCellTemplate}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader
+                                DataContext="{DynamicResource NameContainer}"
+                                Tag="NameHolder.Name"/>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <!--Колонка "Действует до"-->
+                    <GridViewColumn CellTemplate="{StaticResource ResourceKey=DateNotAfterCellTemplate}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader
+                                DataContext="{DynamicResource ValidUntil}"
+                                Tag="DateNotAfterUTC"/>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <!--Колонка "Закончится через"--> 
+                    <GridViewColumn CellTemplate="{StaticResource ResourceKey=RemainingTimeCellTemplate}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader
+                                DataContext="{DynamicResource WillEndIn}"
+                                Tag="RemainingTimeUntilEndKey"/>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <!--Колонка "Дата копирования"-->
+                    <GridViewColumn CellTemplate="{StaticResource ResourceKey=DateOfCopyCellTemplate}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader
+                                DataContext="{DynamicResource CopyDate}"
+                                Tag="DateOfCopyUTC"/>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <!--Колонка "Возраст копирования"-->
+                    <GridViewColumn CellTemplate="{StaticResource ResourceKey=ElapsedTimeCellTemplate}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader
+                                DataContext="{DynamicResource CopyAge}"
+                                Tag="ElapsedTimeAfterCopy"/>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <!--Колонка "Открытый ключ"-->
+                    <GridViewColumn CellTemplate="{StaticResource ResourceKey=PublicKeyCellTemplate}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader
+                                DataContext="{DynamicResource PublicKey}"
+                                Tag="PublicKey"/>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <!--Колонка "Расположение"-->
+                    <GridViewColumn CellTemplate="{StaticResource ResourceKey=PathCellTemplate}">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader
+                                DataContext="{DynamicResource Path}"
+                                Tag="Path"/>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+            <!--Стиль Групп ListView'а-->
+            <ListView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <StaticResource ResourceKey="GroupItemStyle"/>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </ListView.GroupStyle>
+        </ListView>
+        
+        <!--Прелоадер-->
+        <pr:ProgressRing
+            Grid.Column="0"
+            Style="{StaticResource PreloaderStyle}"
+            Width="48">
+        </pr:ProgressRing>
+    </Grid>
+</ResourceDictionary>

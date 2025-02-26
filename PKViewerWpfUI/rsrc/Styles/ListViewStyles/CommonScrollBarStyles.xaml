@@ -1,0 +1,140 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
+
+    <!--ПРОЗРАЧНОСТЬ ДЛЯ Slim и Full Width-->
+    <system:Double x:Key="OpacitySlimWidth">0.8</system:Double>
+    <system:Double x:Key="OpacityFullWidth">0.65</system:Double>
+
+    <!--РАЗМЕРЫ ДЛЯ СКРОЛБАРА-->
+    <system:Double x:Key="Length">120</system:Double>
+    <system:Double x:Key="SlimWidth">9</system:Double>
+    <system:Double x:Key="FullWidth">14</system:Double>
+
+    <!--ОТСТУПЫ ДЛЯ СКРОЛБАРОВ-->
+    <system:Double x:Key="FromShortSide">20</system:Double>
+    <system:Double x:Key="FromLargeSide">2</system:Double>
+
+    <!--СМЕЩЕНИЕ ГОР. СКРОЛБАРА ПО ОСИ Х-->
+    <!-- Должно быть: EndShiftX - StartShiftX = FullWidth - SlimWidth  -->
+    <!--StartShiftX зависит от величины SlimWidth-->
+    <system:Double x:Key="StartShiftX">10</system:Double>
+    <system:Double x:Key="EndShiftX">15</system:Double>
+
+    <!--ПРОДОЛЖИТЕЛЬНОСТЬ АНИМАЦИИ-->
+    <Duration x:Key="ZeroDuration">0:0:0</Duration>
+    <Duration x:Key="FullDuration">0:0:0.1</Duration>
+
+    <!--СТРЕЛОЧКИ НА КОНЦЕВЫХ КНОПКАХ-->
+    <Style x:Key="ScrollBarButton" TargetType="{x:Type RepeatButton}">
+        <Style.Resources>
+            <ResourceDictionary>
+                <!--ПРИСОЕДИНЕННЫЕ СЛОВАРИ (ВЕКТОРНЫЕ СТРЕЛОЧКИ ВВЕРХ И ВНИЗ)-->
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="./ListViewVectorPaths.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Style.Resources>
+        <!--СВОЙСТВА СТИЛЯ КНОПКИ СО СТРЕЛКАМИ-->
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="Visibility" Value="Collapsed"/>
+        <Setter Property="Focusable" Value="false"/>
+        <Setter Property="IsTabStop" Value="false"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <!--ШАБЛОН КНОПКИ СО СТРЕЛКАМИ-->
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <!--КОНТЕЙНЕР ДЛЯ РИСОВАНИЯ СТРЕЛОК-->
+                    <Path 
+					    x:Name="Arrow" 
+					    HorizontalAlignment="Center" 
+					    VerticalAlignment="Center" 
+					    Fill="{DynamicResource TextBrush}"
+                        Opacity="{StaticResource OpacityFullWidth}">
+                    </Path>
+                    <!--ТРИГГЕРЫ ШАБЛОНА-->
+                    <ControlTemplate.Triggers>
+                        <!--ТРИГГЕР ДЛЯ РИСОВАНИЯ СТРЕЛОЧКИ ВВЕРХ-->
+                        <Trigger Property="theme:ScrollChrome.ScrollGlyph" Value="UpArrow">
+                            <Setter TargetName="Arrow" Property="Data" Value="{StaticResource TriangleTop}"/>
+                        </Trigger>
+                        <!--ТРИГГЕР ДЛЯ РИСОВАНИЯ СТРЕЛОЧКИ ВНИЗ-->
+                        <Trigger Property="theme:ScrollChrome.ScrollGlyph" Value="DownArrow">
+                            <Setter TargetName="Arrow" Property="Data" Value="{StaticResource TriangleBottom}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--БЕГУНОК-СТОЛБИК МЕЖДУ СТРЕЛОК-->
+    <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="IsTabStop" Value="false"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <!--ШАБЛОН БЕГУНКА-->
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <!--ОБЩИЙ ГРИД-->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <!--ЗАПОЛНИТЕЛЬ СЛЕВА ОТ БЕГУНКА (НУЖЕН ДЛЯ КОРРЕКТНОГО ОТОБРАЖЕНИЯ ПРИ СМЕНЕ DPI)-->
+                        <Border 
+                            Grid.Column="0"
+                            Width="2"/>
+                        <!--БЕГУНОК-->
+                        <Border
+                            x:Name="TrackThumb"
+                            Grid.Column="1"
+                            Opacity="{StaticResource OpacityFullWidth}"
+                            Background="{DynamicResource TextBrush}"
+                            CornerRadius="2"
+                            Margin="0"/>
+                        <!--ЗАПОЛНИТЕЛЬ СПРАВА ОТ БЕГУНКА (НУЖЕН ДЛЯ КОРРЕКТНОГО ОТОБРАЖЕНИЯ ПРИ СМЕНЕ DPI)-->
+                        <Border 
+                            Grid.Column="2"
+                            Width="2"/>
+                    </Grid>
+                    <!--ТРИГГЕРЫ ШАБЛОНА-->
+                    <ControlTemplate.Triggers>
+                        <!--ТРИГГЕР НА СМЕНУ ОКРУГЛОСТИ УГОЛКОВ БЕГУНКА, КОГДА ШИРОКИЙ-->
+                        <DataTrigger 
+                            Binding="{Binding Opacity, RelativeSource={RelativeSource AncestorType=ScrollBar}}" 
+                            Value="{StaticResource OpacityFullWidth}">
+                            <Setter TargetName="TrackThumb" Property="Border.CornerRadius" Value="4"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--ФОН МЕЖДУ БЕГУНКОМ И СТРЕЛКАМИ У СКРОЛБАРА-->
+    <Style x:Key="ScrollBarPageButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="Background" Value="{DynamicResource RightPanelBgBrush}"/>
+        <Setter Property="Focusable" Value="false"/>
+        <Setter Property="IsTabStop" Value="false"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <!--ШАБЛОН ФОНА (ЭТО КНОПКА)-->
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Rectangle 
+					    Fill="{TemplateBinding Background}"
+                        Width="{TemplateBinding Width}"
+                        Height="{TemplateBinding Height}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

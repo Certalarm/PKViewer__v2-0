@@ -1,0 +1,98 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    xmlns:cnvrt="clr-namespace:WpfMvvm.Infrastructure.Converters;assembly=WpfMvvm">
+    
+    <!--ШАБЛОН ЯЧЕЙКИ ОТКРЫТОГО КЛЮЧА [PublicKey]-->
+    <DataTemplate x:Key="PublicKeyCellTemplate">
+        <DataTemplate.Resources>
+            <!--РЕСУРСЫ ШАБЛОНА-->
+            <ResourceDictionary>
+                <!--ПРИСОЕДИНЕННЫЕ СЛОВАРИ-->
+                <ResourceDictionary.MergedDictionaries>
+                    <!--СЛОВАРЬ ОБЩИХ СТИЛЕЙ ЯЧЕЕК GRIDVIEW-->
+                    <ResourceDictionary Source="./../Styles/ListViewStyles/GridViewCellCommonStyles.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+                <!--КОНСТАНТЫ-->
+                <system:Int32 x:Key="PublicKeyLen">23</system:Int32>
+                <system:String x:Key="PrefixText">04 xx</system:String>
+                <!--МОНОШИРИННЫЙ ШРИФТ-->
+                <FontFamily x:Key="MonospacedFontFamily">Courier New</FontFamily>
+                <!--КОНВЕРТЕР ОТКРЫТОГО КЛЮЧА-->
+                <cnvrt:PublicKeyWithThreeDotConverter x:Key="PublicKeyConverter"/>
+            </ResourceDictionary>
+        </DataTemplate.Resources>
+        <!--ВНЕШНИЙ БОРДЕР ШАБЛОНА ЯЧЕЙКИ-->
+        <Border
+            Style="{StaticResource BaseBorderStyle}"
+            DataContext="{Binding PublicKey}">
+            <!--ДОКПАНЕЛЬ ДЛЯ ДВУХ ТЕКСТБОКСОВ-->
+            <DockPanel  
+                VerticalAlignment="Bottom">
+                <!--РЕСУРСЫ ДОКПАНЕЛИ-->
+                <DockPanel.Resources>
+                    <!--СТИЛЬ ПРЕФИКСА ОТКРЫТОГО КЛЮЧА-->
+                    <Style x:Key="TBPrefixStyle" TargetType="{x:Type TextBlock}" >
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Setter Property="VerticalAlignment" Value="Bottom"/>
+                        <Setter Property="Padding" Value="3 0 0 3"/>
+                        <Setter Property="FontFamily" Value="{StaticResource MonospacedFontFamily}"/>
+                        <Setter Property="FontSize" Value="8pt"/>
+                        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+                        <Setter Property="Opacity" Value="0.7"/>
+                        <!--ТРИГГЕРЫ ДЛЯ ПРЕФИКСА-->
+                        <Style.Triggers>
+                            <!--ТРИГГЕР НА VISIBILITY: ЕСЛИ НУЖНО ПОКАЗАТЬ ПРЕФИКС И ДЛИНА ОТКРЫТОГО КЛЮЧА ПОДХОДЯЩАЯ-->
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding DataContext.TopPanelVM.IsPublicKeyPrefixPresent,
+                                               RelativeSource={RelativeSource AncestorType=Window}}" 
+                                               Value="True"/>
+                                    <Condition Binding="{Binding DataContext.PublicKey.Length, 
+                                               RelativeSource={RelativeSource AncestorType=ListViewItem}}" 
+                                               Value="{StaticResource PublicKeyLen}"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                    <!--СТИЛЬ САМОГО ОТКРЫТОГО КЛЮЧА-->
+                    <Style x:Key="TBMainStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseTextBlockStyle}">
+                        <!--ТРИГГЕРЫ ОСНОВНОЙ ЧАСТИ ОТКРЫТОГО КЛЮЧА-->
+                        <Style.Triggers>
+                            <!--ТРИГГЕР НА СМЕНУ ШРИФТА, ПАДДИНГА И TOOLTIP, ЕСЛИ ДЛИНА ОТКРЫТОГО КЛЮЧА ПОДХОДЯЩАЯ-->
+                            <DataTrigger Binding="{Binding Length}" Value="{StaticResource PublicKeyLen}">
+                                <Setter Property="FontFamily" Value="{StaticResource MonospacedFontFamily}"/>
+                                <Setter Property="Padding" Value="0 0 2 0"/>
+                                <Setter Property="ToolTip" Value="{Binding Text, RelativeSource={RelativeSource Self}, 
+                                    Converter={StaticResource PublicKeyConverter}, ConverterParameter={StaticResource PrefixText}}"/>
+                            </DataTrigger>
+                            <!--ТРИГГЕР TOOLTIP, ЕСЛИ БЕЗ ПРЕФИКСА-->
+                            <DataTrigger Binding="{Binding DataContext.TopPanelVM.IsPublicKeyPrefixPresent,
+                                               RelativeSource={RelativeSource AncestorType=Window}}" 
+                                               Value="False">
+                                <Setter Property="ToolTip" Value="{Binding Text, RelativeSource={RelativeSource Self}}"/>
+                            </DataTrigger>
+                            <!--ТРИГГЕР НА СМЕНУ TOOLTIP, ЕСЛИ В ТЕКСТЕ НЕ ОТКРЫТЫЙ КЛЮЧ-->
+                            <Trigger Property="Padding" Value="{StaticResource BasePadding}">
+                                <Setter Property="ToolTip" Value="{Binding Text, RelativeSource={RelativeSource Self}}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DockPanel.Resources>
+                <!--ПРЕФИКС ПЕРЕД ОТКЫТЫМ КЛЮЧОМ-->
+                <TextBlock
+                    Style="{StaticResource TBPrefixStyle}"
+                    Text="{Binding Source={StaticResource PrefixText}, StringFormat='{}{0} ', Mode=OneTime}"
+                    ToolTip="{Binding Text, ElementName=OpenKeyTextBlock , 
+                        Converter={StaticResource PublicKeyConverter}, ConverterParameter={StaticResource PrefixText}, Mode=OneTime}"
+                    DockPanel.Dock="Left"/>
+                <!--САМ ОТКРЫТЫЙ КЛЮЧ-->
+                <TextBlock
+                    x:Name="OpenKeyTextBlock"
+                    Style="{StaticResource TBMainStyle}"
+                    Text="{Binding ., Converter={StaticResource PublicKeyConverter}, Mode=OneTime}"/>
+            </DockPanel>
+        </Border>
+    </DataTemplate>
+</ResourceDictionary>

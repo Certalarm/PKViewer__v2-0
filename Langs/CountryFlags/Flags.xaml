@@ -1,0 +1,152 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:p="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+	<!--ПРИСОЕДИНЕННЫЕ СЛОВАРИ РЕСУРСОВ-->
+	<ResourceDictionary.MergedDictionaries>
+		<!--СЛОВАРЬ РЕСУРСОВ ДЛЯ Brushes-->
+        <ResourceDictionary Source="./Brushes.xaml"/>
+        <!--СЛОВАРЬ РЕСУРСОВ ДЛЯ Styles-->
+        <ResourceDictionary Source="./Styles.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--ФЛАГ ПО УМОЛЧАНИЮ-->
+    <ContentControl x:Key="Default" 
+        x:Shared="False" 
+		Style="{StaticResource FlagStyle}">
+        <Canvas Style="{StaticResource CanvasStyle}">
+            <Canvas.Resources>
+                <Geometry x:Key="DefaultFlagGeometry_1" p:Freeze="True">M 1,1 H 43 V 32 H 1 Z</Geometry>
+                <Geometry x:Key="DefaultFlagGeometry_2" p:Freeze="True">M 33,16 A 11,11 0 0 1 22,27 11,11 0 0 1 11,16 
+                    11,11 0 0 1 22,5 11,11 0 0 1 33,16 Z</Geometry>
+                <Geometry x:Key="DefaultFlagGeometry_3" p:Freeze="True">m 17.7,19.59 c 4.56,-3.61 9.19,0 9.19,0</Geometry>
+                <Geometry x:Key="DefaultFlagGeometry_4" p:Freeze="True">m 17.24,12.24 c 0.75,0.22 1.52,0 1.52,0</Geometry>
+                <Geometry x:Key="DefaultFlagGeometry_5" p:Freeze="True">m 25.24,12.24 c 0.75,0.22 1.52,0 1.52,0</Geometry>
+
+                <Style x:Key="DefaultFlagStyle_1" TargetType="Path" BasedOn="{StaticResource BasePathStyle}">
+                    <Setter Property="Stroke" Value="{DynamicResource PanelBorderBrush}"/>
+                    <Setter Property="Fill" Value="{StaticResource DarkOrangeBrush}"/>
+                    <Setter Property="StrokeThickness" Value="2"/>
+                    <Setter Property="Data" Value="{StaticResource DefaultFlagGeometry_1}"/>
+                </Style>
+                <Style x:Key="DefaultFlagStyle_2" TargetType="Path" BasedOn="{StaticResource BasePathStyle}">
+                    <Setter Property="Stroke" Value="{DynamicResource TextBrush}"/>
+                    <Setter Property="StrokeThickness" Value="2"/>
+                    <Setter Property="Data" Value="{StaticResource DefaultFlagGeometry_2}"/>
+                </Style>
+                <Style x:Key="DefaultFlagStyle_3" TargetType="Path" BasedOn="{StaticResource BasePathStyle}">
+                    <Setter Property="Stroke" Value="{DynamicResource TextBrush}"/>
+                    <Setter Property="StrokeThickness" Value="2"/>
+                    <Setter Property="Data" Value="{StaticResource DefaultFlagGeometry_3}"/>
+                </Style>
+                <Style x:Key="DefaultFlagStyle_4" TargetType="Path" BasedOn="{StaticResource BasePathStyle}">
+                    <Setter Property="Stroke" Value="{DynamicResource TextBrush}"/>
+                    <Setter Property="StrokeThickness" Value="4"/>
+                    <Setter Property="Data" Value="{StaticResource DefaultFlagGeometry_4}"/>
+                </Style>
+                <Style x:Key="DefaultFlagStyle_5" TargetType="Path" BasedOn="{StaticResource BasePathStyle}">
+                    <Setter Property="Stroke" Value="{DynamicResource TextBrush}"/>
+                    <Setter Property="StrokeThickness" Value="4"/>
+                    <Setter Property="Data" Value="{StaticResource DefaultFlagGeometry_5}"/>
+                </Style>
+            </Canvas.Resources>
+            <Path Style="{StaticResource DefaultFlagStyle_1}"/>
+            <Path Style="{StaticResource DefaultFlagStyle_2}"/>
+            <Path Style="{StaticResource DefaultFlagStyle_3}"/>
+            <Path Style="{StaticResource DefaultFlagStyle_4}"/>
+            <Path Style="{StaticResource DefaultFlagStyle_5}"/>
+        </Canvas>
+    </ContentControl>
+
+    <!--ФЛАГ РОССИИ-->
+    <system:String x:Key="RuruTitle">Русский</system:String>
+    <ContentControl x:Key="Ruru"
+        x:Shared="False"
+		Style="{StaticResource FlagStyle}">
+		<Canvas Style="{StaticResource CanvasStyle}">
+            <Canvas.Resources>
+                <Geometry x:Key="RuFlagWhiteGeometry" p:Freeze="True">M 0,0 H 44 V 11 H 0 Z</Geometry>
+                <Geometry x:Key="RuFlagBlueGeometry" p:Freeze="True">M 0,11 H 44 V 23 H 0 Z</Geometry>
+                <Geometry x:Key="RuFlagRedGeometry" p:Freeze="True">M 0,22 H 44 V 33 H 0 Z</Geometry>
+                <Geometry x:Key="RuFlagGrayGeometry" p:Freeze="True">M 0.4846,11.5 V 0.4846 H 43.5154 V 11.5</Geometry>
+
+                <Style x:Key="RuFlagWhiteStyle" TargetType="Path" BasedOn="{StaticResource AliasedPathStyle}">
+                    <Setter Property="Fill" Value="{StaticResource WhiteBrush}"/>
+                    <Setter Property="Data" Value="{StaticResource RuFlagWhiteGeometry}"/>
+                </Style>
+                <Style x:Key="RuFlagBlueStyle" TargetType="Path" BasedOn="{StaticResource AliasedPathStyle}">
+                    <Setter Property="Fill" Value="{StaticResource BlueBrush}"/>
+                    <Setter Property="Data" Value="{StaticResource RuFlagBlueGeometry}"/>
+                </Style>
+                <Style x:Key="RuFlagRedStyle" TargetType="Path" BasedOn="{StaticResource AliasedPathStyle}">
+                    <Setter Property="Fill" Value="{StaticResource RedBrush}"/>
+                    <Setter Property="Data" Value="{StaticResource RuFlagRedGeometry}"/>
+                </Style>
+                <Style x:Key="RuFlagGrayStyle" TargetType="Path" BasedOn="{StaticResource AliasedPathStyle}">
+                    <Setter Property="Stroke" Value="{StaticResource GrayBrush}"/>
+                    <Setter Property="StrokeThickness" Value="1"/>
+                    <Setter Property="Data" Value="{StaticResource RuFlagGrayGeometry}"/>
+                </Style>
+            </Canvas.Resources>
+            <Path Style="{StaticResource RuFlagWhiteStyle}"/>
+            <Path Style="{StaticResource RuFlagBlueStyle}"/>
+            <Path Style="{StaticResource RuFlagRedStyle}"/>
+            <Path Style="{StaticResource RuFlagGrayStyle}"/>
+        </Canvas>
+	</ContentControl>
+
+    <!--ФЛАГ БРИТАНИИ-->
+    <system:String x:Key="EnusTitle">English</system:String>
+    <ContentControl x:Key="Enus" 
+        x:Shared="False"
+		Style="{StaticResource FlagStyle}">
+        <Canvas Style="{StaticResource CanvasStyle}">
+            <Canvas.Resources>
+                <Geometry x:Key="GbFlagGeometry_1" p:Freeze="True">M 0,0 H 44 V 33 H 0 Z</Geometry>
+                <Geometry x:Key="GbFlagGeometry_2" p:Freeze="True">M 5.1562,0 21.9312,12.4437 38.6375,0 H 44 V 4.2625 
+                    L 27.5,16.5688 44,28.8062 V 33 H 38.5 L 22,20.6938 5.5687,33 H 0 V 28.875 L 16.4312,16.6375 0,4.4 
+                    V 0 Z</Geometry>
+                <Geometry x:Key="GbFlagGeometry_3" p:Freeze="True">M 29.15,19.3188 44,30.25 V 33 L 25.3687,19.3188 Z M 
+                    16.5,20.6938 16.9125,23.1 3.7125,33 H 0 Z M 44,0 v 0.2062 l -17.1187,12.925 0.1375,-3.025 L 40.5625,0
+                    Z M 0,0 16.4312,12.1 h -4.125 L 0,2.8875 Z</Geometry>
+                <Geometry x:Key="GbFlagGeometry_4" p:Freeze="True">m 16.5688,0 v 33 h 11 V 0 Z M 0,11 V 22 H 44 V 11 Z
+                </Geometry>
+                <Geometry x:Key="GbFlagGeometry_5" p:Freeze="True">m 0,13.2688 v 6.6 h 44 v -6.6 z</Geometry>
+                <Geometry x:Key="GbFlagGeometry_6" p:Freeze="True">M 18.7688,0 v 33 h 6.6 V 0 Z</Geometry>
+
+                <Style x:Key="GbFlagStyle_1" TargetType="Path" BasedOn="{StaticResource BasePathStyle}">
+                    <Setter Property="Fill" Value="{StaticResource BlueBrush}"/>
+                    <Setter Property="Data" Value="{StaticResource GbFlagGeometry_1}"/>
+                </Style>
+                <Style x:Key="GbFlagStyle_2" TargetType="Path" BasedOn="{StaticResource BasePathStyle}">
+                    <Setter Property="Fill" Value="{StaticResource WhiteBrush}"/>
+                    <Setter Property="Data" Value="{StaticResource GbFlagGeometry_2}"/>
+                </Style>
+                <Style x:Key="GbFlagStyle_3" TargetType="Path" BasedOn="{StaticResource BasePathStyle}">
+                    <Setter Property="Fill" Value="{StaticResource RedBrush}"/>
+                    <Setter Property="Data" Value="{StaticResource GbFlagGeometry_3}"/>
+                </Style>
+                <Style x:Key="GbFlagStyle_4" TargetType="Path" BasedOn="{StaticResource BasePathStyle}">
+                    <Setter Property="Fill" Value="{StaticResource WhiteBrush}"/>
+                    <Setter Property="Data" Value="{StaticResource GbFlagGeometry_4}"/>
+                </Style>
+                <Style x:Key="GbFlagStyle_5" TargetType="Path" BasedOn="{StaticResource BasePathStyle}">
+                    <Setter Property="Fill" Value="{StaticResource RedBrush}"/>
+                    <Setter Property="Data" Value="{StaticResource GbFlagGeometry_5}"/>
+                </Style>
+                <Style x:Key="GbFlagStyle_6" TargetType="Path" BasedOn="{StaticResource BasePathStyle}">
+                    <Setter Property="Fill" Value="{StaticResource RedBrush}"/>
+                    <Setter Property="Data" Value="{StaticResource GbFlagGeometry_6}"/>
+                </Style>
+            </Canvas.Resources>
+            <Path Style="{StaticResource GbFlagStyle_1}"/>
+            <Path Style="{StaticResource GbFlagStyle_2}"/>
+            <Path Style="{StaticResource GbFlagStyle_3}"/>
+            <Path Style="{StaticResource GbFlagStyle_4}"/>
+            <Path Style="{StaticResource GbFlagStyle_5}"/>
+            <Path Style="{StaticResource GbFlagStyle_6}"/>
+        </Canvas>
+    </ContentControl>
+
+</ResourceDictionary>

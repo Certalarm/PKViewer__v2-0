@@ -1,0 +1,35 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--Шаблон Popup'a над IsEncrypted-->
+    <DataTemplate x:Key="PopupIsEncryptedTemplate">
+        <DataTemplate.Resources>
+            <!--Стиль всех надписей-->
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+                <Setter Property="LineStackingStrategy" Value="BlockLineHeight"/>
+                <Setter Property="LineHeight" Value="14"/>
+                <Setter Property="Margin" Value="0 3 0 2"/>
+            </Style>
+        </DataTemplate.Resources>
+        <!--Основная надпись-->
+        <TextBlock 
+            x:Name="MainText" 
+            Text="{DynamicResource KeyContIsEncrypted}"/>
+        <!--Триггеры шаблона-->
+        <DataTemplate.Triggers>
+            <!--Триггер на смену текста, если без пароля-->
+            <DataTrigger 
+                Binding="{Binding DataContext.NameHolder.IsEncrypted, RelativeSource={RelativeSource AncestorType=ContentPresenter}}" 
+                Value="False">
+                <Setter TargetName="MainText" Property="TextBlock.Text" Value="{DynamicResource KeyContIsNotEncrypted}"/>
+            </DataTrigger>
+            <!--Триггер на смену текста, если с паролем-->
+            <DataTrigger 
+                Binding="{Binding DataContext.NameHolder.IsEncrypted, RelativeSource={RelativeSource AncestorType=ContentPresenter}}" 
+                Value="{x:Null}">
+                <Setter TargetName="MainText" Property="TextBlock.Text" Value="{DynamicResource KeyContIsUnknownEncrypted}"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+</ResourceDictionary>

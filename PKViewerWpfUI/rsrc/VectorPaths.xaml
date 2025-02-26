@@ -1,0 +1,272 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:p="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+                    xmlns:cnvrt="clr-namespace:WpfMvvm.Infrastructure.Converters;assembly=WpfMvvm">
+
+    <!--Конвертер толщины линий-->
+    <cnvrt:DpiConverter x:Key="DpiConverter"/>
+    <!--Конвертер координат точки-->
+    <cnvrt:DpiPointConverter x:Key="DpiPointConverter"/>
+
+    <!--Стиль иконок в ListView (NameHolder) без сглаживания-->
+    <Style x:Key="BaseIconPathStyle" TargetType="Path" p:Freeze="True">
+        <Setter Property="StrokeThickness" Value="{Binding Source='2', Converter={StaticResource DpiConverter}}"/>
+        <Setter Property="Stretch" Value="None"/>
+        <Setter Property="Width" Value="16"/>
+        <Setter Property="Height" Value="16"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Stroke" Value="{Binding Tag, RelativeSource={RelativeSource AncestorType=Border}}"/>
+    </Style>
+    <!--Стиль иконок в ListView (NameHolder)  со сглаживанием-->
+    <Style x:Key="AliasedIconPathStyle" TargetType="Path" BasedOn="{StaticResource BaseIconPathStyle}">
+        <Setter Property="RenderOptions.EdgeMode" Value="Aliased"/>
+    </Style>
+
+    <!-- MOON -->
+    <Style x:Key="MoonPathStyle" TargetType="Path" p:Freeze="True">
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="Data" Value="
+            M11 0 A11 11 0 0 0 0 11 A11 11 0 0 0 11 22 A11 11 0 0 0 22 11 L22 11 A8 8 0 0 1 22 11
+            A8 8 0 0 1 11 7 A8 8 0 0 1 11 0 L11 0 z"/>
+    </Style>
+
+    <!-- SUN -->
+    <Style x:Key="SunPathStyle" TargetType="Path" p:Freeze="True">
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="Data" Value="
+            m 11,0.06 a 10.95,10.95 0 0 0 -0.33,0.02 A 4.94,4.94 0 0 1 6,3.45 a 4.94,4.94 0 0 1 
+            -2.3,-0.58 10.95,10.95 0 0 0 -0.79,0.81 4.94,4.94 0 0 1 0.53,2.23 4.94,4.94 0 0 1 
+            -3.36,4.67 10.95,10.95 0 0 0 -0.03,0.43 10.95,10.95 0 0 0 0.03,0.42 4.94,4.94 0 0 1 
+            3.36,4.68 4.94,4.94 0 0 1 -0.54,2.22 10.95,10.95 0 0 0 0.8,0.82 4.94,4.94 0 0 1 
+            2.3,-0.59 4.94,4.94 0 0 1 4.68,3.37 10.95,10.95 0 0 0 0.32,0.02 10.95,10.95 0 0 0 
+            0.33,-0.02 4.94,4.94 0 0 1 4.67,-3.37 4.94,4.94 0 0 1 2.31,0.57 10.95,10.95 0 0 0 
+            0.81,-0.78 4.94,4.94 0 0 1 -0.56,-2.25 4.94,4.94 0 0 1 3.38,-4.68 10.95,10.95 0 0 0 
+            0.01,-0.42 10.95,10.95 0 0 0 -0.01,-0.42 4.94,4.94 0 0 1 -3.38,-4.68 4.94,4.94 0 0
+            1 0.56,-2.25 10.95,10.95 0 0 0 -0.8,-0.8 4.94,4.94 0 0 1 -2.31,0.59 4.94,4.94 0 0
+            1 -4.68,-3.38 10.95,10.95 0 0 0 -0.32,-0.01 z"/>
+    </Style>
+
+    <!-- CERTIFICATE -->
+    <PathGeometry x:Key="CertificateData" p:Freeze="True">
+        <PathGeometry.Figures>
+            <PathFigureCollection>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='2,2', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_b|16_h_b'}">
+                    <LineSegment Point="{Binding Source='2,2', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_e|16_h_b'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='2,2', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_b|16_h_e'}">
+                    <LineSegment Point="{Binding Source='2,2', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_e|16_h_e'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='0,4', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_b|16_v_b'}">
+                    <LineSegment Point="{Binding Source='0,4', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_b|16_v_e'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='0,4', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_e|16_v_b'}">
+                    <LineSegment Point="{Binding Source='0,4', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_e|16_v_e'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='5,0', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_e|16_v_e'}">
+                    <LineSegment Point="{Binding Source='5,5', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_e|16_v_e'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='4,5', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_b|16_h_b'}">
+                    <LineSegment Point="{Binding Source='6,5', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_b|16_h_b'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='4,5', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_b|16_h_e'}">
+                    <LineSegment Point="{Binding Source='6,5', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_b|16_h_e'}"/>
+                </PathFigure>
+            </PathFigureCollection>
+        </PathGeometry.Figures>
+    </PathGeometry>
+
+    <PathGeometry x:Key="CertificateData2" p:Freeze="True">
+        <PathGeometry.Figures>
+            <PathFigureCollection>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='1,3', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_b|16_v_b'}">
+                    <ArcSegment Size="1,1" IsLargeArc="False" SweepDirection="Clockwise" Point="{Binding Source='1,4', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_b|16_h_b'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='1,3', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_e|16_v_b'}">
+                    <ArcSegment Size="1,1" IsLargeArc="False" SweepDirection="Counterclockwise" Point="{Binding Source='1,4', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_e|16_h_b'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='1,3', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_b|16_v_e'}">
+                    <ArcSegment Size="1,1" IsLargeArc="False" SweepDirection="Counterclockwise" Point="{Binding Source='1,4', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_b|16_h_e'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='1,3', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_e|16_v_e'}">
+                    <ArcSegment Size="1,1" IsLargeArc="False" SweepDirection="Clockwise" Point="{Binding Source='1,4', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_e|16_h_e'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='8,6', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_b|16_h_e'}">
+                    <ArcSegment Size="2,2" IsLargeArc="True" SweepDirection="Clockwise" Point="{Binding Source='12,6', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_b|16_h_e'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='8,6', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_b|16_h_e'}">
+                    <ArcSegment Size="2,2" IsLargeArc="True" SweepDirection="Counterclockwise" Point="{Binding Source='12,6', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_b|16_h_e'}"/>
+                </PathFigure>
+            </PathFigureCollection>
+        </PathGeometry.Figures>
+    </PathGeometry>
+
+    <!-- ENCRYPTED -->
+    <PathGeometry x:Key="EncryptedData" p:Freeze="True">
+        <PathGeometry.Figures>
+            <PathFigureCollection>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='0,8', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_b|16_h_e'}">
+                    <LineSegment Point="{Binding Source='0,8', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_e|16_h_e'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='0,0', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_b|16_h_e'}">
+                    <LineSegment Point="{Binding Source='0,0', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_e|16_h_e'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='0,0', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_b|16_v_e'}">
+                    <LineSegment Point="{Binding Source='0,8', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_b|16_v_e'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='0,0', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_e|16_v_e'}">
+                    <LineSegment Point="{Binding Source='0,8', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_e|16_v_e'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='6,4', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_b|16_h_e'}">
+                    <LineSegment Point="{Binding Source='6,4', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_e|16_h_e'}"/>
+                </PathFigure>
+            </PathFigureCollection>
+        </PathGeometry.Figures>
+    </PathGeometry>
+
+    <PathGeometry x:Key="EncryptedData2" p:Freeze="True">
+        <PathGeometry.Figures>
+            <PathFigureCollection>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='3,8', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_b|16_h_e'}">
+                    <ArcSegment Size="3.5,4" IsLargeArc="False" SweepDirection="Clockwise" Point="{Binding Source='3,8', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_e|16_h_e'}"/>
+                </PathFigure>
+            </PathFigureCollection>
+        </PathGeometry.Figures>
+    </PathGeometry>
+
+    <!-- DELETED -->
+    <PathGeometry x:Key="DeletedData" p:Freeze="True">
+        <PathGeometry.Figures>
+            <PathFigureCollection>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='2,0', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_b|16_v_e'}">
+                    <LineSegment Point="{Binding Source='2,4', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_b|16_v_b'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='2,0', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_b|16_h_e'}">
+                    <LineSegment Point="{Binding Source='2,0', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_e|16_h_e'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='2,0', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_e|16_v_e'}">
+                    <LineSegment Point="{Binding Source='2,4', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_e|16_v_b'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='0,4', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_b|16_h_b'}">
+                    <LineSegment Point="{Binding Source='0,4', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_e|16_h_b'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='4,0', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_b|16_v_b'}">
+                    <LineSegment Point="{Binding Source='4,4', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_b|16_v_b'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='4,0', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_b|16_h_b'}">
+                    <LineSegment Point="{Binding Source='4,0', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_e|16_h_b'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='4,0', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_e|16_v_b'}">
+                    <LineSegment Point="{Binding Source='4,4', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_e|16_v_b'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='5,7', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_b|16_v_b'}">
+                    <LineSegment Point="{Binding Source='5,3', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_b|16_v_e'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='5,7', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_e|16_v_b'}">
+                    <LineSegment Point="{Binding Source='5,3', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_e|16_v_e'}"/>
+                </PathFigure>
+            </PathFigureCollection>
+        </PathGeometry.Figures>
+    </PathGeometry>
+
+    <!-- EXPORTED [ 2 pcs ] -->
+    <PathGeometry x:Key="ExportedData" p:Freeze="True">
+        <PathGeometry.Figures>
+            <PathFigureCollection>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='0,0', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_e|16_h_b'}">
+                    <LineSegment Point="{Binding Source='6,0', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_e|16_h_b'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='0,0', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_e|16_v_b'}">
+                    <LineSegment Point="{Binding Source='0,6', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_e|16_v_b'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='0,0', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_b|16_v_e'}">
+                    <LineSegment Point="{Binding Source='0,4', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_b|16_v_b'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='0,0', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_b|16_h_e'}">
+                    <LineSegment Point="{Binding Source='4,0', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_e|16_h_e'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='0,4', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_b|16_h_b'}">
+                    <LineSegment Point="{Binding Source='6,4', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_b|16_h_b'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='4,0', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_e|16_v_e'}">
+                    <LineSegment Point="{Binding Source='4,6', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_v_e|16_v_e'}"/>
+                </PathFigure>
+            </PathFigureCollection>
+        </PathGeometry.Figures>
+    </PathGeometry>
+
+    <PathGeometry x:Key="ExportedData2" p:Freeze="True">
+        <PathGeometry.Figures>
+            <PathFigureCollection>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='1,1', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_e|16_v_b'}">
+                    <LineSegment Point="{Binding Source='5,5', Converter={StaticResource DpiPointConverter}, ConverterParameter='16_h_b|16_v_e'}"/>
+                </PathFigure>
+            </PathFigureCollection>
+        </PathGeometry.Figures>
+    </PathGeometry>
+
+
+    <!-- WWW [24 x 24]-->
+    <PathGeometry x:Key="WwwData" p:Freeze="True">
+        <PathGeometry.Figures>
+            <PathFigureCollection>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='11.5,3', Converter={StaticResource DpiPointConverter}, ConverterParameter='24_v_b|24_v_b'}">
+                    <LineSegment Point="{Binding Source='11.5,3', Converter={StaticResource DpiPointConverter}, ConverterParameter='24_v_b|24_v_e'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='3,8.5', Converter={StaticResource DpiPointConverter}, ConverterParameter='24_h_b|24_h_b'}">
+                    <LineSegment Point="{Binding Source='3,8.5', Converter={StaticResource DpiPointConverter}, ConverterParameter='24_h_e|24_h_b'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='3,8.5', Converter={StaticResource DpiPointConverter}, ConverterParameter='24_h_b|24_h_e'}">
+                    <LineSegment Point="{Binding Source='3,8.5', Converter={StaticResource DpiPointConverter}, ConverterParameter='24_h_e|24_h_e'}"/>
+                </PathFigure>
+            </PathFigureCollection>
+        </PathGeometry.Figures>
+    </PathGeometry>
+
+    <PathGeometry x:Key="WwwData2" p:Freeze="True">
+        <PathGeometry.Figures>
+            <PathFigureCollection>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='2,12', Converter={StaticResource DpiPointConverter}, ConverterParameter='24_v_b|24_v_b'}">
+                    <ArcSegment Size="8,8"  IsLargeArc="True" SweepDirection="Clockwise" Point="{Binding Source='2,12', Converter={StaticResource DpiPointConverter}, ConverterParameter='24_v_e|24_v_b'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='2,12', Converter={StaticResource DpiPointConverter}, ConverterParameter='24_v_b|24_v_b'}">
+                    <ArcSegment Size="8,8"  IsLargeArc="True" SweepDirection="Counterclockwise" Point="{Binding Source='2,12', Converter={StaticResource DpiPointConverter}, ConverterParameter='24_v_e|24_v_b'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='11.5,2.5', Converter={StaticResource DpiPointConverter}, ConverterParameter='24_v_b|24_v_b'}">
+                    <ArcSegment Size="9.5,11" IsLargeArc="False" SweepDirection="Counterclockwise" Point="{Binding Source='11.5,2.5', Converter={StaticResource DpiPointConverter}, ConverterParameter='24_v_b|24_v_e'}"/>
+                </PathFigure>
+                <PathFigure IsClosed="False" StartPoint="{Binding Source='11.5,2.5', Converter={StaticResource DpiPointConverter}, ConverterParameter='24_v_b|24_v_b'}">
+                    <ArcSegment Size="9.5,11" IsLargeArc="False" SweepDirection="Clockwise" Point="{Binding Source='11.5,2.5', Converter={StaticResource DpiPointConverter}, ConverterParameter='24_v_b|24_v_e'}"/>
+                </PathFigure>
+            </PathFigureCollection>
+        </PathGeometry.Figures>
+    </PathGeometry>
+
+    <!--Стиль Path без сглаживания-->
+    <Style x:Key="BasePathStyle" TargetType="Path" p:Freeze="True">
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+    <!--Стиль Path со сглаживанием-->
+    <Style x:Key="AliasedPathStyle" TargetType="Path" BasedOn="{StaticResource BasePathStyle}">
+        <Setter Property="RenderOptions.EdgeMode" Value="Aliased"/>
+    </Style>
+
+    <!-- ErrorReport [22 x 22]-->
+    <Style x:Key="ErrorReportStyle_1" TargetType="Path" BasedOn="{StaticResource BasePathStyle}">
+        <Setter Property="StrokeThickness" Value="{Binding Source='2', Converter={StaticResource DpiConverter}}"/>
+        <Setter Property="Data" Value="
+            M 5.5,0 0,11 l 5.5,11 L 16.5,22 22,11 16.5,0 Z"/>
+    </Style>
+    <Style x:Key="ErrorReportStyle_2" TargetType="Path" BasedOn="{StaticResource AliasedPathStyle}">
+        <Setter Property="StrokeThickness" Value="{Binding Source='4', Converter={StaticResource DpiConverter}}"/>
+        <Setter Property="Data" Value="
+            M 11,3 v 11"/>
+    </Style>
+    <Style x:Key="ErrorReportStyle_3" TargetType="Path" BasedOn="{StaticResource AliasedPathStyle}">
+        <Setter Property="StrokeThickness" Value="{Binding Source='4', Converter={StaticResource DpiConverter}}"/>
+        <Setter Property="Data" Value="
+           M 11,16 v 3"/>
+    </Style>
+
+</ResourceDictionary>

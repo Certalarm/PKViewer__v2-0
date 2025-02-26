@@ -1,0 +1,48 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sel="clr-namespace:WpfMvvm.Infrastructure.Selectors;assembly=WpfMvvm"
+                    xmlns:cnvrt="clr-namespace:WpfMvvm.Infrastructure.Converters;assembly=WpfMvvm">
+
+    <!--Стиль основного ListView-->
+    <Style TargetType="{x:Type ListView}">
+        <Style.Resources>
+            <ResourceDictionary>
+                <!--Присоединенные словари-->
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="./ScrollViewerStyles.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Style.Resources>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <!--Шаблон ListView-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListView">
+                    <!--Основной бордер-->
+                    <Border Name="Border"
+                            Background="{TemplateBinding Background}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}">
+                        <ScrollViewer Style="{StaticResource ScrollViewerStyle}">
+                            <ItemsPresenter />
+                        </ScrollViewer>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <!--Триггер на установку фокуса, если есть строки-->
+                        <Trigger Property="HasItems" Value="True">
+                            <Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource Self}}"/>
+                        </Trigger>
+                        <!--Триггер шаблона на запрет прокрутки, если есть группы-->
+                        <Trigger Property="IsGrouping" Value="True">
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
+                        </Trigger>
+                     </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

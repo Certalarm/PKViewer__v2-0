@@ -1,0 +1,103 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:cmd="clr-namespace:WpfMvvm.Infrastructure.Commands;assembly=WpfMvvm">
+
+    <!--Основной бордер RightPanel-->
+    <Border
+        x:Key="MainRightPanel"
+        DockPanel.Dock="Right"
+        HorizontalAlignment="Right"
+        BorderThickness="1 1 0 1"
+        Background="{DynamicResource RightPanelBgBrush}"
+        BorderBrush="{DynamicResource PanelBorderBrush}"
+        SnapsToDevicePixels="True">
+        <!--Ресурсы основного бордера-->
+        <Border.Resources>
+            <!--Команда на сохранение сертификатов-->
+            <cmd:SaveCertCommand x:Key="SaveCertCommand"/>
+            <!--Команда на Удаление контейнеров-->
+            <cmd:DeleteContainerCommandWithWarning x:Key="DelContCommand"/>
+            <!--Команда на закрытие окна-->
+            <cmd:CloseWindowCommand x:Key="CloseWindowCommand"/>
+        </Border.Resources>
+        <!--Основной Грид-->
+        <Grid
+            Width="auto"
+            Margin="0 4 0 3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <!--Ресурсы основоного грида-->
+            <Grid.Resources>
+                <!--Базовый стиль кнопки-->
+                <Style x:Key="BaseButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                    <Setter Property="Margin" Value="7 3 7 4"/>
+                    <Setter Property="Width" Value="84"/>
+                    <Setter Property="MaxWidth" Value="85"/>
+                    <Setter Property="Height" Value="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"/>
+                </Style>
+                <!--Стиль кнопки активной, если есть отмеченные строки в ListView-->
+                <Style x:Key="ButtonAnyCheckedStyle" TargetType="Button" BasedOn="{StaticResource BaseButtonStyle}">
+                    <Style.Triggers>
+                        <!--Триггер на Disabled, если нет отмеченных-->
+                        <DataTrigger 
+                            Binding="{Binding DataContext.MainListViewVM.ItemsCheckedCount, 
+                                RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=OneWay}"
+                            Value="0">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Resources>
+            <!--DELETE CHECKED KEY CONTAINERS BUTTON-->
+            <Button 
+                Grid.Row="0"
+                Style="{StaticResource ButtonAnyCheckedStyle}"
+                Content="{DynamicResource ButtonDelKeyTitle}"
+                ToolTip="{DynamicResource ButtonDelKeyDesc}"
+                Command="{StaticResource DelContCommand}"
+                CommandParameter="{Binding DataContext.MainListViewVM.CheckedPaths, 
+                    RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=OneWay}"/>
+            <!--DELETE ALL KEY CONTAINERS BUTTON-->
+            <Button 
+                Grid.Row="1"
+                Style="{StaticResource BaseButtonStyle}"
+                Content="{DynamicResource ButtonDelAllKeysTitle}"
+                ToolTip="{DynamicResource ButtonDelAllKeysDesc}"
+                Command="{StaticResource DelContCommand}"
+                CommandParameter="{Binding DataContext.MainListViewVM.AllPaths, 
+                    RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=OneWay}"/>
+            <!--SAVE CHECKED CERTS BUTTON-->
+            <Button 
+                Grid.Row="3"
+                Style="{StaticResource ButtonAnyCheckedStyle}"
+                Content="{DynamicResource ButtonSaveCertTitle}"
+                ToolTip="{DynamicResource ButtonSaveCertDesc}"
+                Command="{StaticResource SaveCertCommand}"
+                CommandParameter="{Binding DataContext.MainListViewVM.CheckedPaths, 
+                    RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=OneWay}"/>
+            <!--SAVE ALL CERTS BUTTON-->
+            <Button 
+                Grid.Row="4"
+                Style="{StaticResource BaseButtonStyle}"
+                Content="{DynamicResource ButtonSaveAllCertsTitle}"
+                ToolTip="{DynamicResource ButtonSaveAllCertsDesc}"
+                Command="{StaticResource SaveCertCommand}"
+                CommandParameter="{Binding DataContext.MainListViewVM.AllPaths, 
+                    RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=OneWay}"/>
+            <!--EXIT BUTTON-->
+            <Button 
+                Grid.Row="6"
+                Style="{StaticResource BaseButtonStyle}"
+                Content="{DynamicResource ButtonExitTitle}"
+                ToolTip="{DynamicResource ButtonExitDesc}"
+                Command="{StaticResource CloseWindowCommand}"/>
+        </Grid>
+    </Border>
+</ResourceDictionary>

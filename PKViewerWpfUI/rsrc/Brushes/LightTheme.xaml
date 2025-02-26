@@ -1,0 +1,41 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:p="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options">
+
+    <!--#region FREEZED COLORS-->
+    <Color x:Key="PopupBgColor" p:Freeze="True">AliceBlue</Color>
+    <Color x:Key="PopupFgColor" p:Freeze="True">#D0000000</Color>
+    <Color x:Key="TopPanelBgColor" p:Freeze="True">#f0ffff</Color>
+    <Color x:Key="MainPanelBgColor" p:Freeze="True">#f5fffa</Color>
+    <Color x:Key="RightPanelBgColor" p:Freeze="True">#e0ffff</Color>
+    <Color x:Key="ButtonBgColor" p:Freeze="True">#f1eded</Color>
+    <Color x:Key="MainGridLinesColor" p:Freeze="True">#bebebe</Color>
+    <Color x:Key="MainGridOddItemsColor" p:Freeze="True">#10ffff00</Color>
+    <Color x:Key="HighlightColor" p:Freeze="True">SkyBlue</Color>
+    <Color x:Key="ProgressRingFgColor" p:Freeze="True">DeepSkyBlue</Color>
+    <Color x:Key="ThemeSwitcherLeftBorderColor" p:Freeze="True">Orange</Color>
+    <Color x:Key="ThemeSwitcherLeftBorderBgColor" p:Freeze="True">Yellow</Color>
+    <!--#endregion-->
+
+    <!--#region FREEZED BRUSHES-->
+    <SolidColorBrush x:Key="PopupBgBrush" Color="AliceBlue" p:Freeze="True"/>
+    <SolidColorBrush x:Key="PopupFgBrush" Color="#D0000000" p:Freeze="True"/>
+    <SolidColorBrush x:Key="PopupBorderBrush" Color="{StaticResource WhiteColor}" p:Freeze="True"/>
+    <SolidColorBrush x:Key="MainGridLinesBrush" Color="{StaticResource MainGridLinesColor}" p:Freeze="True"/>
+    <SolidColorBrush x:Key="MainGridOddItemsBrush" Color="{StaticResource MainGridOddItemsColor}" p:Freeze="True"/>
+    <SolidColorBrush x:Key="ButtonBgBrush" Color="{StaticResource ButtonBgColor}" p:Freeze="True"/>
+    <SolidColorBrush x:Key="TextBrush" Color="{StaticResource BlackColor}" p:Freeze="True"/>
+    <SolidColorBrush x:Key="PanelBorderBrush" Color="{StaticResource GrayColor}" p:Freeze="True"/>
+    <SolidColorBrush x:Key="TopPanelBgBrush" Color="{StaticResource TopPanelBgColor}" p:Freeze="True"/>
+    <SolidColorBrush x:Key="MainPanelBgBrush" Color="{StaticResource MainPanelBgColor}" p:Freeze="True"/>
+    <SolidColorBrush x:Key="RightPanelBgBrush" Color="{StaticResource RightPanelBgColor}" p:Freeze="True"/>
+    <SolidColorBrush x:Key="ProgressRingBrush" Color="{StaticResource ProgressRingFgColor}" p:Freeze="True"/>
+    <SolidColorBrush x:Key="ThemeSwitcherMainBorderBrush" Color="{StaticResource GrayColor}" p:Freeze="True"/>
+    <SolidColorBrush x:Key="ThemeSwitcherLeftBorderBrush" Color="{StaticResource ThemeSwitcherLeftBorderColor}" p:Freeze="True"/>
+    <SolidColorBrush x:Key="ThemeSwitcherLeftBorderBgBrush" Color="{StaticResource ThemeSwitcherLeftBorderBgColor}" p:Freeze="True"/>
+    <SolidColorBrush x:Key="ThemeSwitcherRightBorderBrush" Color="{StaticResource Colorless}" p:Freeze="True"/>
+    <SolidColorBrush x:Key="ThemeSwitcherMoonBrush" Color="{StaticResource BlackColor}" p:Freeze="True"/>
+    <SolidColorBrush x:Key="ThemeSwitcherSunBrush" Color="{StaticResource ThemeSwitcherLeftBorderColor}" p:Freeze="True"/>
+    <SolidColorBrush x:Key="HighlightBrush" Color="{StaticResource HighlightColor}" p:Freeze="True"/>
+    <!--#endregion-->
+</ResourceDictionary> 

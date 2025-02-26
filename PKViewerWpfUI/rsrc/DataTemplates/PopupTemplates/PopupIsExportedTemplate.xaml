@@ -1,0 +1,46 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--Шаблон Popup'a над IsExported-->
+    <DataTemplate x:Key="PopupIsExportedTemplate">
+        <!--Внутренняя стэкпанель-->
+        <StackPanel Orientation="Vertical">
+            <StackPanel.Resources>
+                <!--Стиль всех надписей-->
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+                    <Setter Property="LineStackingStrategy" Value="BlockLineHeight"/>
+                    <Setter Property="LineHeight" Value="14"/>
+                    <Setter Property="Margin" Value="0 3 0 2"/>
+                </Style>
+            </StackPanel.Resources>
+            <!--Надпись 1-->
+            <TextBlock
+                x:Name="Text1"
+                Text="{DynamicResource KeyContIsExportable}"/>
+            <!--Надпись 2-->
+            <TextBlock 
+                x:Name="Text2"
+                Text="{DynamicResource KeyContIsExportable2}"/>
+        </StackPanel>
+        <!--Триггеры шаблона-->
+        <DataTemplate.Triggers>
+            <!--Триггер на смену текста, если экспортируемый-->
+            <DataTrigger 
+                Binding="{Binding DataContext.NameHolder.IsExportable, RelativeSource={RelativeSource AncestorType=ContentPresenter}}"
+                Value="False">
+                <Setter TargetName="Text1" Property="Text" Value="{DynamicResource KeyContIsNotExportable}"/>
+                <Setter TargetName="Text2" Property="Text" Value="{DynamicResource KeyContIsNotExportable2}"/>
+            </DataTrigger>
+            <!--Триггер на смену текста, если не экспортируемый-->
+            <DataTrigger 
+                Binding="{Binding DataContext.NameHolder.IsExportable, RelativeSource={RelativeSource AncestorType=ContentPresenter}}"
+                Value="{x:Null}">
+                <Setter TargetName="Text1" Property="Text" Value="{DynamicResource KeyContIsUnknownExportable}"/>
+                <Setter TargetName="Text2" Property="Text" Value="{x:Null}"/>
+                <Setter TargetName="Text2" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+</ResourceDictionary>

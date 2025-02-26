@@ -1,0 +1,220 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:cnvrt="clr-namespace:WpfMvvm.Infrastructure.Converters;assembly=WpfMvvm"
+                    xmlns:cmd="clr-namespace:WpfMvvm.Infrastructure.Commands;assembly=WpfMvvm">
+
+    <!--Конвертер из пути сертификта в CetInfo-->
+    <cnvrt:PathToCertInfoPopupVMConverter x:Key="CertInfoConverter"/>
+    <!--Конвертер времени из UTC в локальное-->
+    <cnvrt:UtcToLocalTimeConverter x:Key="UTCConverter"/>
+    <!--Конвертер типа сертификата и владельца-->
+    <cnvrt:CertAndOwnerTypeConverter x:Key="CertTypeConverter"/>
+    
+    <!--Команда на сохранение сертификата в файл-->
+    <cmd:SaveCertCommand x:Key="SaveCertCommand"/>
+
+    <!--Шаблон Popup'a для сертификата-->
+    <DataTemplate x:Key="PopupCertificateTemplate">
+        <Grid
+            x:Name="ContentGrid"
+            DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ContentPresenter}}">
+            <Grid.Resources>
+                <Style x:Key="BaseText" TargetType="{x:Type TextBlock}">
+                    <Setter Property="Margin" Value="0 3 0 2"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="TextWrapping" Value="Wrap"/>
+                    <Setter Property="LineHeight" Value="13"/>
+                    <Setter Property="LineStackingStrategy" Value="BlockLineHeight"/>
+                </Style>
+
+                <Style x:Key="LeftText" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseText}">
+                    <Setter Property="MinWidth" Value="125"/>
+                    <Setter Property="MaxWidth" Value="125"/>
+                    <Setter Property="VerticalAlignment" Value="Top"/>
+                </Style>
+
+                <Style x:Key="RightText" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseText}">
+                    <Setter Property="MinWidth" Value="285"/>
+                    <Setter Property="MaxWidth" Value="285"/>
+                    <Setter Property="VerticalAlignment" Value="Bottom"/>
+                </Style>
+            </Grid.Resources>
+            <!--Строки грида-->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!--Содержимое строк грида-->
+            <!--Строка 0 [Заголовок]-->
+            <TextBlock
+                x:Name="Caption"
+                Style="{StaticResource BaseText}"/>
+            <!--Строка 1 [Данные из сертификата]-->
+            <StackPanel 
+                x:Name="CertData"
+                Grid.Row="1"
+                DataContext="{Binding Path=Path, Converter={StaticResource CertInfoConverter}}"
+                Orientation="Vertical">
+                <!--Панель Надпись-значение [Serial]-->
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        Style="{StaticResource LeftText}"
+                        Text="{DynamicResource Serial}"/>
+                    <TextBlock
+                        Style="{StaticResource RightText}"
+                        FontFamily="Courier New"
+                        Text="{Binding Serial}"/>
+                </StackPanel>
+                <!--Панель Надпись-значение [Validity]-->
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        Style="{StaticResource LeftText}"
+                        Text="{DynamicResource Validity}"/>
+                    <TextBlock 
+                        Style="{StaticResource RightText}">
+                        <Run Text="{DynamicResource From}"/>
+                        <Run Text="{Binding NotBeforeUTC, Converter={StaticResource UTCConverter}}"/>
+                        <Run Text="{DynamicResource LocaleTime}"/><LineBreak/><Run Text="{DynamicResource To}"/>
+                        <Run Text="{Binding NotAfterUTC, Converter={StaticResource UTCConverter}}"/>
+                        <Run Text="{DynamicResource LocaleTime}"/>
+                    </TextBlock>
+                </StackPanel>
+                <!--Панель Надпись-значение [CertType]-->
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock 
+                        Style="{StaticResource LeftText}"
+                        Text="{DynamicResource CertType}"/>
+                    <TextBlock
+                        Style="{StaticResource RightText}"
+                        Text="{Binding ., Converter={StaticResource CertTypeConverter}}"/>
+                </StackPanel>
+                <!--Панель Надпись-значение [Owner]-->
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock 
+                        Style="{StaticResource LeftText}"
+                        Text="{DynamicResource Owner}"/>
+                    <TextBlock
+                        Style="{StaticResource RightText}"
+                        Text="{Binding Owner}"/>
+                </StackPanel>
+                <!--Панель Надпись-значение [OwnerTitle]-->
+                <StackPanel 
+                    x:Name="T"
+                    Orientation="Horizontal">
+                    <TextBlock 
+                        Style="{StaticResource LeftText}"
+                        Text="{DynamicResource OwnerTitle}"/>
+                    <TextBlock
+                        x:Name="TValue"
+                        Style="{StaticResource RightText}"
+                        Text="{Binding OwnerTitle}"/>
+                </StackPanel>
+                <!--Панель Надпись-значение [Organization]-->
+                <StackPanel 
+                    x:Name="O"
+                    Orientation="Horizontal">
+                    <TextBlock 
+                        Style="{StaticResource LeftText}"
+                        Text="{DynamicResource Organization}"/>
+                    <TextBlock
+                        x:Name="OValue"
+                        Style="{StaticResource RightText}"
+                        Text="{Binding Organization}"/>
+                </StackPanel>
+                <!--Панель Надпись-значение [OrganizationUnit]-->
+                <StackPanel 
+                    x:Name="OU"
+                    Orientation="Horizontal">
+                    <TextBlock 
+                        Style="{StaticResource LeftText}"
+                        Text="{DynamicResource OrganizationUnit}"/>
+                    <TextBlock
+                        Name="OUValue"
+                        Style="{StaticResource RightText}"
+                        Text="{Binding OrganizationUnit}"/>
+                </StackPanel>
+                <!--Панель Надпись-значение [OwnerEmail]-->
+                <StackPanel 
+                    x:Name="E"
+                    Orientation="Horizontal">
+                    <TextBlock 
+                        Style="{StaticResource LeftText}"
+                        Text="{DynamicResource OwnerEmail}"/>
+                    <TextBlock
+                        Name="EValue"
+                        Style="{StaticResource RightText}"
+                        Text="{Binding OwnerEmail}"/>
+                </StackPanel>
+                <!--Панель Надпись-значение [Issuer]-->
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock 
+                        Style="{StaticResource LeftText}"
+                        Text="{DynamicResource Issuer}"/>
+                    <TextBlock
+                        Style="{StaticResource RightText}"
+                        Text="{Binding Issuer}"/>
+                </StackPanel>
+                <!--Бордер для кнопки-->
+                <Border
+                    Margin="0 5 0 0"
+                    BorderThickness="0 1 0 0"
+                    BorderBrush="{DynamicResource TextBrush}"
+                    Background="{DynamicResource MainPanelBgBrush}">
+                    <!--Кнопка "сохранить сертификат"-->
+                    <Button 
+                        Content="{DynamicResource SaveCert}"
+                        Margin="0 5 0 2"
+                        Padding="15 3"
+                        VerticalAlignment="Bottom"
+                        Command="{StaticResource SaveCertCommand}"
+                        CommandParameter="{Binding DataContext.Path, ElementName=ContentGrid}"/>
+                </Border>
+            </StackPanel>
+        </Grid>
+        <!--Триггеры шаблона Popup'a-->
+        <DataTemplate.Triggers>
+            <!--Если в контейнере есть сертификат-->
+            <DataTrigger 
+                Binding="{Binding  DataContext.NameHolder.IsCertPresent, RelativeSource={RelativeSource AncestorType=ContentPresenter}}"
+                Value="True">
+                <Setter TargetName="Caption" Property="Text" Value="{DynamicResource KeyContWithCert}"/>
+                <Setter TargetName="Caption" Property="TextDecorations" Value="Underline"/>
+                <Setter TargetName="Caption" Property="FontWeight" Value="Bold"/>
+                <Setter TargetName="Caption" Property="Margin" Value="0 3 0 5"/>
+                <Setter TargetName="Caption" Property="HorizontalAlignment" Value="Center"/>
+            </DataTrigger>
+            <!--Если в контейнере нет сертификата-->
+            <DataTrigger 
+                Binding="{Binding  DataContext.NameHolder.IsCertPresent, RelativeSource={RelativeSource AncestorType=ContentPresenter}}"
+                Value="False">
+                <Setter TargetName="Caption" Property="Text" Value="{DynamicResource KeyContWoCert}"/>
+                <Setter TargetName="CertData" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="CertData" Property="DataContext" Value="{x:Null}"/>
+            </DataTrigger>
+            <!--Если в контейнере неизвестно про сертификат-->
+            <DataTrigger 
+                Binding="{Binding  DataContext.NameHolder.IsCertPresent, RelativeSource={RelativeSource AncestorType=ContentPresenter}}"
+                Value="{x:Null}">
+                <Setter TargetName="Caption" Property="Text" Value="{DynamicResource KeyContUnknownCert}"/>
+                <Setter TargetName="CertData" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="CertData" Property="DataContext" Value="{x:Null}"/>
+            </DataTrigger>
+            <!--Скрыть OU, если пустое-->
+            <DataTrigger Binding="{Binding Text.Length, ElementName=OUValue}" Value="0">
+                <Setter TargetName="OU" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+            <!--Скрыть O, если пустое-->
+            <DataTrigger Binding="{Binding Text.Length, ElementName=OValue}" Value="0">
+                <Setter TargetName="O" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+            <!--Скрыть T, если пустое-->
+            <DataTrigger Binding="{Binding Text.Length, ElementName=TValue}" Value="0">
+                <Setter TargetName="T" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+            <!--Скрыть E, если пустое-->
+            <DataTrigger Binding="{Binding Text.Length, ElementName=EValue}" Value="0">
+                <Setter TargetName="E" Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+</ResourceDictionary>

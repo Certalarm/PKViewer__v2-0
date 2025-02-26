@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{30B044AF-32B6-4177-BB41-EC7AB1B40895}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WpfMvvm</RootNamespace>
+    <AssemblyName>WpfMvvm</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\PKViewerWpfUI\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PKInfo, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\PKViewerWpfUI\bin\Debug\PKInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataSource\DataModelsLoader.cs" />
+    <Compile Include="GlobalUsings.cs" />
+    <Compile Include="Infrastructure\Commands\Base\Command.cs" />
+    <Compile Include="Infrastructure\Commands\Base\CommandAsync.cs" />
+    <Compile Include="Infrastructure\Commands\CloseWindowCommand.cs" />
+    <Compile Include="Infrastructure\Commands\CloseWindowIntoChild.cs" />
+    <Compile Include="Infrastructure\Commands\DeleteContainerCommand.cs" />
+    <Compile Include="Infrastructure\Commands\DeleteContainerCommandHelper.cs" />
+    <Compile Include="Infrastructure\Commands\DeleteContainerCommandMBoxVmBuilder.cs" />
+    <Compile Include="Infrastructure\Commands\DeleteContainerCommandWithWarning.cs" />
+    <Compile Include="Infrastructure\Commands\ErrorLocalizeHelper.cs" />
+    <Compile Include="Infrastructure\Commands\LambdaCommand.cs" />
+    <Compile Include="Infrastructure\Commands\ListViewHeaderWidthCommand.cs" />
+    <Compile Include="Infrastructure\Commands\ListViewSortCommand.cs" />
+    <Compile Include="Infrastructure\Commands\ListViewSortCommandHelper.cs" />
+    <Compile Include="Infrastructure\Commands\LoadFlagsCommand.cs" />
+    <Compile Include="Infrastructure\Commands\OpenFolderCommand.cs" />
+    <Compile Include="Infrastructure\Commands\OpenWwwCommand.cs" />
+    <Compile Include="Infrastructure\Commands\ResourceHelper.cs" />
+    <Compile Include="Infrastructure\Commands\SaveCertCommand.cs" />
+    <Compile Include="Infrastructure\Commands\SaveCertCommandHelper.cs" />
+    <Compile Include="Infrastructure\Commands\SaveCertCommandMBoxVmBuilder.cs" />
+    <Compile Include="Infrastructure\Commands\ShowErrorsCommand.cs" />
+    <Compile Include="Infrastructure\Commands\ShowErrorsCommandHelper.cs" />
+    <Compile Include="Infrastructure\Commands\SwitchCommandHelper.cs" />
+    <Compile Include="Infrastructure\Commands\SwitchLangCommand.cs" />
+    <Compile Include="Infrastructure\Commands\SwitchThemeCommand.cs" />
+    <Compile Include="Infrastructure\Commands\SwitchThemeCommandHelper.cs" />
+    <Compile Include="Infrastructure\Commands\UpdateReadersCommand.cs" />
+    <Compile Include="Infrastructure\Converters\CertAndOwnerTypeConverter.cs" />
+    <Compile Include="Infrastructure\Converters\CertValidityConverter.cs" />
+    <Compile Include="Infrastructure\Converters\ComboBoxItemVmTitleToNameMediaConverter.cs" />
+    <Compile Include="Infrastructure\Converters\DpiConverter.cs" />
+    <Compile Include="Infrastructure\Converters\DpiPixelTranslator.cs" />
+    <Compile Include="Infrastructure\Converters\DpiPointConverter.cs" />
+    <Compile Include="Infrastructure\Converters\KeyMediaSelectionChangedConverter.cs" />
+    <Compile Include="Infrastructure\Converters\KeyMediaSelectionChangedHelper.cs" />
+    <Compile Include="Infrastructure\Converters\ListViewAllGroupIsCheckedConverter.cs" />
+    <Compile Include="Infrastructure\Converters\Base\Converter.cs" />
+    <Compile Include="Infrastructure\Converters\Base\SelectionChangedConverter.cs" />
+    <Compile Include="Infrastructure\Converters\ListViewFilterConverter.cs" />
+    <Compile Include="Infrastructure\Converters\ListViewGroupIsCheckedConverter.cs" />
+    <Compile Include="Infrastructure\Converters\ListViewItemIsCheckedConverter.cs" />
+    <Compile Include="Infrastructure\Converters\ItemToExecuteLangCmdConverter.cs" />
+    <Compile Include="Infrastructure\Converters\FlagKeyToControlConverter.cs" />
+    <Compile Include="Infrastructure\Converters\FlagKeyToControlHelper.cs" />
+    <Compile Include="Infrastructure\Converters\KeyToPairConverter.cs" />
+    <Compile Include="Infrastructure\Converters\KnownLocalizeKeys.cs" />
+    <Compile Include="Infrastructure\Converters\ListViewIsCheckedHelper.cs" />
+    <Compile Include="Infrastructure\Converters\ListViewItemIsCheckedHelper.cs" />
+    <Compile Include="Infrastructure\Converters\MouseOverToTemplateConverter.cs" />
+    <Compile Include="Infrastructure\Converters\PathToCertInfoPopupVMConverter.cs" />
+    <Compile Include="Infrastructure\Converters\PluralFormHelper.cs" />
+    <Compile Include="Infrastructure\Converters\PublicKeyWithThreeDotConverter.cs" />
+    <Compile Include="Infrastructure\Converters\ReaderSelectionChangedConverter.cs" />
+    <Compile Include="Infrastructure\Converters\ComboBoxItemVmTitleToPairConverter.cs" />
+    <Compile Include="Infrastructure\Converters\SelfInfoConverter.cs" />
+    <Compile Include="Infrastructure\Converters\TimeIntervalToPluralFormConverter.cs" />
+    <Compile Include="Infrastructure\Converters\UtcToLocalTimeConverter.cs" />
+    <Compile Include="Infrastructure\Selectors\ColumnHeaderTemplateSelector.cs" />
+    <Compile Include="Infrastructure\Selectors\ItemContainerStylesSelector.cs" />
+    <Compile Include="Models\IniHandler\IniABC.cs" />
+    <Compile Include="Models\IniHandler\IniHandler.cs" />
+    <Compile Include="Models\IniHandler\IniTryHelper.cs" />
+    <Compile Include="Models\Settings\Base\BaseSettings.cs" />
+    <Compile Include="Models\Settings\DefaultSettings.cs" />
+    <Compile Include="Models\Settings\MD5Hasher.cs" />
+    <Compile Include="Models\Settings\OsLangDefiner.cs" />
+    <Compile Include="Models\Settings\OsThemeDefiner.cs" />
+    <Compile Include="Models\Settings\SettingsHelper.cs" />
+    <Compile Include="Models\Settings\SettingsKnownParts.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\Base\ViewModel.cs" />
+    <Compile Include="ViewModels\MainWindow\CtrlCombobox\CtrlComboboxItemVM.cs" />
+    <Compile Include="ViewModels\MainWindow\CtrlCombobox\CtrlComboboxVM.cs" />
+    <Compile Include="ViewModels\MainWindow\KeyContainerItem\KeyContainerItemVM.cs" />
+    <Compile Include="ViewModels\MainWindow\KeyContainerItem\NameHolder.cs" />
+    <Compile Include="ViewModels\MainWindow\MainLV\MainListViewVM.cs" />
+    <Compile Include="ViewModels\MainWindow\MainWindowUIElementDetector.cs" />
+    <Compile Include="ViewModels\MainWindow\MainWindowVM.cs" />
+    <Compile Include="ViewModels\MainWindow\MainWindowVMsDetector.cs" />
+    <Compile Include="ViewModels\MainWindow\ShutdownBehaviorsHelper.cs" />
+    <Compile Include="ViewModels\MainWindow\SortMainLVBehaviorsHelper.cs" />
+    <Compile Include="ViewModels\MainWindow\StartBehaviorsHelper.cs" />
+    <Compile Include="ViewModels\MainWindow\StatusBar\LangLibSearcher.cs" />
+    <Compile Include="ViewModels\MainWindow\StatusBar\StatusBarVM.cs" />
+    <Compile Include="ViewModels\MainWindow\ThemeSwitcher\ThemeSwitcherVM.cs" />
+    <Compile Include="ViewModels\MainWindow\TopPanel\TopPanelVM.cs" />
+    <Compile Include="ViewModels\MainWindow\UIHelper.cs" />
+    <Compile Include="ViewModels\MainWindow\Win32Helper.cs" />
+    <Compile Include="ViewModels\MessageBox\ButtonVM.cs" />
+    <Compile Include="ViewModels\MessageBox\MessageBoxVM.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

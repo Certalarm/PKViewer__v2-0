@@ -1,0 +1,214 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
+
+    <!--ПРИСОЕДИНЕННЫЕ СЛОВАРИ-->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="./CommonScrollBarStyles.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--СТИЛЬ СКРОЛБАРА-->
+    <Style x:Key="ScrollBarStyle" TargetType="{x:Type ScrollBar}">
+        <Style.Resources>
+            <ResourceDictionary>
+                <!--МАРГИНЫ ДЛЯ СКРОЛБАРОВ-->
+                <Thickness x:Key="VertScrollBarMargin">
+                    <Thickness.Left>0</Thickness.Left>
+                    <Thickness.Top>0</Thickness.Top>
+                    <Thickness.Right>
+                        <StaticResource ResourceKey="FromLargeSide"/>
+                    </Thickness.Right>
+                    <Thickness.Bottom>
+                        <StaticResource ResourceKey="FromShortSide"/>
+                    </Thickness.Bottom>
+                </Thickness>
+                <Thickness x:Key="HorScrollBarMargin">
+                    <Thickness.Left>0</Thickness.Left>
+                    <Thickness.Top>0</Thickness.Top>
+                    <Thickness.Right>
+                        <StaticResource ResourceKey="FromShortSide"/>
+                    </Thickness.Right>
+                    <Thickness.Bottom>
+                        <StaticResource ResourceKey="FromLargeSide"/>
+                    </Thickness.Bottom>
+                </Thickness>
+            </ResourceDictionary>
+        </Style.Resources>
+        <!--СВОЙСТВА СТИЛЯ СКРОЛБАРА-->
+        <Setter Property="Background" Value="{DynamicResource RightPanelBgBrush}"/>
+        <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
+        <Setter Property="Stylus.IsFlicksEnabled" Value="false"/>
+        <Setter Property="Foreground" Value="{x:Null}"/>
+        <Setter Property="Width" Value="{StaticResource SlimWidth}"/>
+        <Setter Property="MinHeight" Value="{StaticResource Length}"/>
+        <Setter Property="MaxHeight" Value="{StaticResource Length}"/>
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="MinWidth" Value="0"/>
+        <Setter Property="Opacity" Value="{StaticResource OpacitySlimWidth}"/>
+        <Setter Property="Minimum" Value="0.0"/>
+        <Setter Property="Cursor" Value="Arrow"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <!--ШАБЛОН СКРОЛБАРА (ИЗНАЧАЛЬНО ВЕРТИКАЛЬНЫЙ)-->
+                <ControlTemplate TargetType="{x:Type ScrollBar}">
+                    <!--ВНЕШНЯЯ РАМКА-->
+                    <Border
+                        x:Name="OutBorder"
+					    CornerRadius="3"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{DynamicResource TextBrush}"
+                        BorderThickness="1"
+                        Margin="0">
+                        <!--ГРИД СКРОЛБАРА-->
+                        <Grid UseLayoutRounding="true">
+                            <Grid.RowDefinitions>
+                                <RowDefinition MaxHeight="10"/>
+                                <RowDefinition Height="0.00001*"/>
+                                <RowDefinition MaxHeight="10"/>
+                            </Grid.RowDefinitions>
+                            <!--ВЕРХНАЯЯ КНОПКА СО СТРЕЛКОЙ НА СКРОЛБАРЕ-->
+                            <RepeatButton 
+                                x:Name="TopArrowButton"
+							    Style="{StaticResource ScrollBarButton}"
+                                Grid.Row="0"
+                                IsEnabled="{TemplateBinding IsMouseOver}"
+                                theme:ScrollChrome.ScrollGlyph="UpArrow"/>
+                            <!--БЕГУНОК С ФОНОМ ДО СТРЕЛОК-->
+                            <Track 
+							    Name="PART_Track" 
+                                Orientation="Vertical"
+                                Grid.Row="1"
+                                IsEnabled="{TemplateBinding IsMouseOver}"
+                                IsDirectionReversed="True">
+                                <!--ВЕРХНЯЯ ЧАСТЬ ОТ ВЕРХНЕЙ КНОПКИ ДО БЕГУНКА (ЭТО КНОПКА)-->
+                                <Track.DecreaseRepeatButton >
+                                    <RepeatButton
+                                        x:Name="DecRepeatButton"
+							   	        Style="{StaticResource ScrollBarPageButton}"/>
+                                </Track.DecreaseRepeatButton>
+                                <!--БЕГУНОК-->
+                                <Track.Thumb>
+                                    <Thumb
+                                        x:Name="ThumbGripper"
+							   	        Style="{StaticResource ScrollBarThumb}"/>
+                                </Track.Thumb>
+                                <!--НИЖНЯЯ ЧАСТЬ ОТ НИЖНЕЙ КНОПКИ ДО БЕГУНКА (ЭТО КНОПКА)-->
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton
+                                        x:Name="IncRepeatButton"
+							   	        Style="{StaticResource ScrollBarPageButton}"/>
+                                </Track.IncreaseRepeatButton>
+                            </Track>
+                            <!--НИЖНЯЯ КНОПКА СО СТРЕЛКОЙ НА СКРОЛБАРЕ-->
+                            <RepeatButton
+                                x:Name="BottomArrowButton"
+							    Style="{StaticResource ScrollBarButton}"
+                                Grid.Row="2"
+                                IsEnabled="{TemplateBinding IsMouseOver}"
+                                theme:ScrollChrome.ScrollGlyph="DownArrow"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Resources>
+                        <!--ЗАДЕРЖКА ВИДИМОСТИ НА 1 СЕК.-->
+                        <DiscreteObjectKeyFrame
+                            x:Key="CollapsedFrame"
+                            Value="{x:Static Visibility.Collapsed}"
+                            KeyTime="0:0:1">
+                        </DiscreteObjectKeyFrame>
+                        <DiscreteObjectKeyFrame 
+                            x:Key="VisibleFrame" 
+                            KeyTime="0"
+                            Value="{x:Static Visibility.Visible}">
+                        </DiscreteObjectKeyFrame>
+                    </ControlTemplate.Resources>
+                    <!--ТРИГГЕРЫ ШАБЛОНА СКРОЛБАРА-->
+                    <ControlTemplate.Triggers>
+                        <!--ТРИГГЕР НА ВЕРТИКАЛЬНУЮ ОРИЕНТАЦИЮ-->
+                        <Trigger Property="Orientation" Value="Vertical">
+                            <Setter TargetName="BottomArrowButton" Property="Command" Value="{x:Static ScrollBar.LineDownCommand}"/>
+                            <Setter TargetName="ThumbGripper" Property="theme:ScrollChrome.ScrollGlyph" Value="VerticalGripper"/>
+                            <Setter TargetName="IncRepeatButton" Property="Command" Value="{x:Static ScrollBar.PageDownCommand}"/>
+                            <Setter TargetName="DecRepeatButton" Property="Command" Value="{x:Static ScrollBar.PageUpCommand}"/>
+                            <Setter TargetName="TopArrowButton" Property="Command" Value="{x:Static ScrollBar.LineUpCommand}"/>
+                            <Setter Property="AutomationProperties.AutomationId" Value="VerticalScrollBar"/>
+                            <Setter Property="Margin" Value="{StaticResource VertScrollBarMargin}"/>
+                        </Trigger>
+                        <!--ТРИГГЕР НА ГОРИЗОНТАЛЬНУЮ ОРИЕНТАЦИЮ-->
+                        <Trigger Property="Orientation" Value="Horizontal">
+                            <Setter TargetName="BottomArrowButton" Property="Command" Value="{x:Static ScrollBar.LineRightCommand}"/>
+                            <Setter TargetName="ThumbGripper" Property="theme:ScrollChrome.ScrollGlyph" Value="HorizontalGripper"/>
+                            <Setter TargetName="IncRepeatButton" Property="Command" Value="{x:Static ScrollBar.PageRightCommand}"/>
+                            <Setter TargetName="DecRepeatButton" Property="Command" Value="{x:Static ScrollBar.PageLeftCommand}"/>
+                            <Setter TargetName="TopArrowButton" Property="Command" Value="{x:Static ScrollBar.LineLeftCommand}"/>
+                            <Setter Property="AutomationProperties.AutomationId" Value="HorizontalScrollBar"/>
+                            <Setter Property="Margin" Value="{StaticResource HorScrollBarMargin}"/>
+                        </Trigger>
+                        <!--ТРИГГЕР ПРИ ВХОДЕ МЫШИ-->
+                        <EventTrigger RoutedEvent="ScrollBar.MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation 
+                                        Storyboard.TargetProperty="Width"
+                                        To="{StaticResource FullWidth}" 
+                                        Duration="{StaticResource ZeroDuration}"/>
+                                    <ObjectAnimationUsingKeyFrames 
+                                        Storyboard.TargetName="TopArrowButton" 
+                                        Storyboard.TargetProperty="Visibility">
+                                        <ObjectKeyFrameCollection>
+                                            <StaticResource ResourceKey="VisibleFrame"/>
+                                        </ObjectKeyFrameCollection>
+                                    </ObjectAnimationUsingKeyFrames>
+                                    <ObjectAnimationUsingKeyFrames 
+                                        Storyboard.TargetName="BottomArrowButton" 
+                                        Storyboard.TargetProperty="Visibility">
+                                        <ObjectKeyFrameCollection>
+                                            <StaticResource ResourceKey="VisibleFrame"/>
+                                        </ObjectKeyFrameCollection>
+                                    </ObjectAnimationUsingKeyFrames>
+                                    <DoubleAnimation 
+                                        Storyboard.TargetProperty="Opacity"
+                                        To="{StaticResource OpacityFullWidth}" 
+                                        Duration="{StaticResource ZeroDuration}"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <!--ТРИГГЕР ПРИ ВЫХОДЕ МЫШИ-->
+                        <EventTrigger RoutedEvent="ScrollBar.MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation 
+                                        Storyboard.TargetProperty="Width"
+                                        To="{StaticResource SlimWidth}" 
+                                        BeginTime="0:0:1" 
+                                        Duration="{StaticResource FullDuration}"/>
+                                    <ObjectAnimationUsingKeyFrames 
+                                        Storyboard.TargetName="TopArrowButton" 
+                                        Storyboard.TargetProperty="Visibility">
+                                        <ObjectKeyFrameCollection>
+                                            <StaticResource ResourceKey="CollapsedFrame"/>
+                                        </ObjectKeyFrameCollection>
+                                    </ObjectAnimationUsingKeyFrames>
+                                    <ObjectAnimationUsingKeyFrames 
+                                        Storyboard.TargetName="BottomArrowButton" 
+                                        Storyboard.TargetProperty="Visibility">
+                                        <ObjectKeyFrameCollection>
+                                            <StaticResource ResourceKey="CollapsedFrame"/>
+                                        </ObjectKeyFrameCollection>
+                                    </ObjectAnimationUsingKeyFrames>
+                                    <DoubleAnimation 
+                                        Storyboard.TargetProperty="Opacity"
+                                        To="{StaticResource OpacitySlimWidth}" 
+                                        BeginTime="0:0:1.1" 
+                                        Duration="{StaticResource ZeroDuration}"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

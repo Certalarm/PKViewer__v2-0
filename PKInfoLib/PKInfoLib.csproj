@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{61CDE06E-486E-449D-B8A9-F3D49916878B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PKInfo</RootNamespace>
+    <AssemblyName>PKInfo</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\PKViewerWpfUI\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Data\DTO\DriveMetaInfo.cs" />
+    <Compile Include="Data\DTO\FileMetaInfo.cs" />
+    <Compile Include="Data\DTO\KeyContainerInfoDB.cs" />
+    <Compile Include="Data\DTO\KeyContainerTypeInfoDB.cs" />
+    <Compile Include="Data\DTO\KeyMediaInfoDB.cs" />
+    <Compile Include="Data\DTO\ReaderInfoDB.cs" />
+    <Compile Include="Data\Implementation\CertWriter\FileCertWriter.cs" />
+    <Compile Include="Data\Implementation\CertWriter\FileNamer.cs" />
+    <Compile Include="Data\Implementation\DAL\DeleterDetector.cs" />
+    <Compile Include="Data\Implementation\DAL\Database.cs" />
+    <Compile Include="Data\Implementation\DAL\Repository.cs" />
+    <Compile Include="Data\Implementation\DAL\ReaderInfoDAO.cs" />
+    <Compile Include="Data\Implementation\DAL\ReaderInfoDAOExts.cs" />
+    <Compile Include="Data\Implementation\DAL\RepositoryHelper.cs" />
+    <Compile Include="Data\Implementation\DiskKeyContainerDeleter\BaseDiskKeyContainerDeleter.cs" />
+    <Compile Include="Data\Implementation\DiskKeyContainerDeleter\DiskCryptoProContainerDeleter.cs" />
+    <Compile Include="Data\Implementation\DiskKeyContainerDeleter\CryptoProDirectoryNamer.cs" />
+    <Compile Include="Data\Implementation\DiskKeyContainerDeleter\DirectoryEditor.cs" />
+    <Compile Include="Data\Implementation\DiskKeyContainerDeleter\DirectoryNamer.cs" />
+    <Compile Include="Data\Implementation\DiskKeyContainerReader\Asn1DerHelper.cs" />
+    <Compile Include="Data\Implementation\DiskKeyContainerReader\Asn1DerParser.cs" />
+    <Compile Include="Data\Implementation\DiskKeyContainerReader\Asn1DerReader.cs" />
+    <Compile Include="Data\Implementation\DiskKeyContainerReader\Asn1DerTag.cs" />
+    <Compile Include="Data\Implementation\DiskKeyContainerReader\BaseDiskKeyContainerReader.cs" />
+    <Compile Include="Data\Implementation\DiskKeyContainerReader\CryptoProContainerHelper.cs" />
+    <Compile Include="Data\Implementation\DiskKeyContainerReader\CryptoProContainerReader.cs" />
+    <Compile Include="Data\Implementation\DiskKeyContainerReader\FileMetaInfoReader.cs" />
+    <Compile Include="Data\Implementation\DiskKeyContainerTypeReader\BaseDiskKeyContainerTypeReader.cs" />
+    <Compile Include="Data\Implementation\DiskKeyContainerTypeReader\CryptoProKeyContainerTypeReader.cs" />
+    <Compile Include="Data\Implementation\DiskKeyMediaReader\BaseDiskKeyMediaReader.cs" />
+    <Compile Include="Data\Implementation\DiskKeyMediaReader\BaseDiskKeyMediaReaderExts.cs" />
+    <Compile Include="Data\Implementation\DiskKeyMediaReader\FlashDiskReader.cs" />
+    <Compile Include="Data\Implementation\DiskKeyMediaReader\FloppyDiskReader.cs" />
+    <Compile Include="Data\Implementation\DiskKeyMediaReader\LocalDiskReader.cs" />
+    <Compile Include="Data\Implementation\DiskReader\BaseDiskReader.cs" />
+    <Compile Include="Data\Implementation\DiskReader\BaseDiskReaderExts.cs" />
+    <Compile Include="Data\Implementation\DiskReader\FixedDiskReader.cs" />
+    <Compile Include="Data\Implementation\DiskReader\RemovableDiskReader.cs" />
+    <Compile Include="Data\Implementation\Reporter\BaseReporter.cs" />
+    <Compile Include="Data\Implementation\Reporter\PlainTextReporter\PlainTextErrorReporter\PlainTextErrorReporter.cs" />
+    <Compile Include="Data\Interface\ICertWriter.cs" />
+    <Compile Include="Data\Interface\IDatabase.cs" />
+    <Compile Include="Data\Interface\IDeleter.cs" />
+    <Compile Include="Data\Interface\IInfoReaderDB.cs" />
+    <Compile Include="Data\Interface\IRepository.cs" />
+    <Compile Include="Domain\Entity\Base\BaseError.cs" />
+    <Compile Include="Domain\Entity\CertInfo.cs" />
+    <Compile Include="Domain\Entity\ErrorKeyContainerTypeInfo.cs" />
+    <Compile Include="Domain\Entity\KeyContainerError.cs" />
+    <Compile Include="Domain\Entity\KeyContainerInfo.cs" />
+    <Compile Include="Domain\Entity\KeyContainerSnapshotInfo.cs" />
+    <Compile Include="Domain\Entity\KeyContainerTypeError.cs" />
+    <Compile Include="Domain\Entity\KeyMediaError.cs" />
+    <Compile Include="Domain\Entity\KeyMediaInfo.cs" />
+    <Compile Include="Domain\Entity\KeyMediaSnapshotInfo.cs" />
+    <Compile Include="Domain\Entity\ReaderError.cs" />
+    <Compile Include="Domain\Entity\ReaderInfo.cs" />
+    <Compile Include="Domain\Entity\ReaderSnapshotInfo.cs" />
+    <Compile Include="Domain\Entity\RootError.cs" />
+    <Compile Include="Domain\Entity\SelfInfo.cs" />
+    <Compile Include="Domain\Entity\TimeInterval.cs" />
+    <Compile Include="Domain\Entity\TimeIntervalHelper.cs" />
+    <Compile Include="Domain\UseCase\KeyContainers\Get\GetKeyContainerInteractor.cs" />
+    <Compile Include="Domain\UseCase\Self\SelfInfoInteractor.cs" />
+    <Compile Include="Domain\UseCase\BaseInteractor.cs" />
+    <Compile Include="Domain\UseCase\BaseSnapshotInteractor.cs" />
+    <Compile Include="Domain\UseCase\Certificates\CertHelper.cs" />
+    <Compile Include="Domain\UseCase\Certificates\GetInfo\CertInfoHelper.cs" />
+    <Compile Include="Domain\UseCase\Certificates\GetInfo\CertTypeAndOwnerDefiner.cs" />
+    <Compile Include="Domain\UseCase\Certificates\GetInfo\GetCertInfoInteractor.cs" />
+    <Compile Include="Domain\UseCase\Certificates\GetInfo\IssuerExts.cs" />
+    <Compile Include="Domain\UseCase\Certificates\GetInfo\SubjectExts.cs" />
+    <Compile Include="Domain\UseCase\Certificates\GetInfo\X500DNHelper.cs" />
+    <Compile Include="Domain\UseCase\Certificates\GetInfo\X509ExtensionHelper.cs" />
+    <Compile Include="Domain\UseCase\Certificates\Save\SaveCertInteractor.cs" />
+    <Compile Include="Domain\UseCase\Certificates\Save\SaveCertsInteractor.cs" />
+    <Compile Include="Domain\UseCase\KeyContainers\Delete\DeleteKeyContainerInteractor.cs" />
+    <Compile Include="Domain\UseCase\KeyContainers\Delete\DeleteKeyContainersInteractor.cs" />
+    <Compile Include="Domain\UseCase\KeyContainers\Get\GetAllInteractor.cs" />
+    <Compile Include="Domain\UseCase\KeyContainers\Get\GetAllWoDeletedInteractor.cs" />
+    <Compile Include="Domain\UseCase\KeyContainers\Get\GetKeyMediaKeyContainersInteractor.cs" />
+    <Compile Include="Domain\UseCase\KeyContainers\Get\GetKeyMediaKeyContainersWoDeletedInteractor.cs" />
+    <Compile Include="Domain\UseCase\KeyContainers\Get\GetReaderKeyContainersInteractor.cs" />
+    <Compile Include="Domain\UseCase\KeyContainers\Get\GetReaderKeyContainersWoDeletedInteractor.cs.cs" />
+    <Compile Include="Domain\UseCase\KeyMedias\Get\GetKeyMediaInteractor.cs" />
+    <Compile Include="Domain\UseCase\KeyMedias\Get\GetKeyMediasInteractor.cs" />
+    <Compile Include="Domain\UseCase\Readers\Get\GetReaderInteractor.cs" />
+    <Compile Include="Domain\UseCase\Readers\Get\GetReadersInteractor.cs" />
+    <Compile Include="Domain\UseCase\Reports\ReadersErrors\RootErrorInteractor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Representation\ControllerContainer.cs" />
+    <Compile Include="Utility\Enum\CertOwnerType.cs" />
+    <Compile Include="Utility\Enum\CertType.cs" />
+    <Compile Include="Utility\Enum\DepthLevelType.cs" />
+    <Compile Include="Utility\Enum\KeyContainerType.cs" />
+    <Compile Include="Utility\Enum\KeyMediaType.cs" />
+    <Compile Include="Utility\Enum\ReaderType.cs" />
+    <Compile Include="Utility\Exts.cs" />
+    <Compile Include="Utility\OID.cs" />
+    <Compile Include="Utility\Txt.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

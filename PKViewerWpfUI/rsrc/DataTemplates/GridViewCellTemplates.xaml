@@ -1,0 +1,89 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:cnvrt="clr-namespace:WpfMvvm.Infrastructure.Converters;assembly=WpfMvvm">
+
+    <!--ПРИСОЕДИНЕННЫЕ СЛОВАРИ-->
+    <ResourceDictionary.MergedDictionaries>
+        <!--СЛОВАРЬ ОБЩИХ СТИЛЕЙ ЯЧЕЙКИ-->
+        <ResourceDictionary Source="./../Styles/ListViewStyles/GridViewCellCommonStyles.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--Конвертер времени из UTC в локальное-->
+    <cnvrt:UtcToLocalTimeConverter x:Key="TimeConverter"/>
+    <!--Конвертер множественных форм-->
+    <cnvrt:TimeIntervalToPluralFormConverter x:Key="PluralConverter"/>
+    <!--Конвертер на смену Checked ячейки (неявно)-->
+    <cnvrt:ListViewItemIsCheckedConverter x:Key="ItemConverter"/>
+
+    <!--ШАБЛОН ЯЧЕЙКИ 'IsChecked' [Binding IsChecked]-->
+    <DataTemplate x:Key="ToggleCellTemplate">
+        <DataTemplate.Resources>
+            <ResourceDictionary>
+                <!--Присоединенные словари-->
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="./../Styles/ToggleButtonStyles/ToggleButtonStyles.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </DataTemplate.Resources>
+        <!--Основной бордер ToggleButton'a-->
+        <Border 
+            Style="{StaticResource BaseBorderStyle}">
+            <!--Сам ToggleButton-->
+            <ToggleButton
+                IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                Style="{StaticResource ToggleButtonStyle}">
+                <ToggleButton.Tag>
+                    <MultiBinding Converter="{StaticResource ItemConverter}" Mode="OneWay">
+                        <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}" Mode="OneWay"/>
+                        <Binding RelativeSource="{RelativeSource AncestorType=ListViewItem}" Mode="OneWay"/>
+                    </MultiBinding>
+                </ToggleButton.Tag>
+            </ToggleButton>
+        </Border>
+    </DataTemplate>
+
+    <!--Шаблон ячейки DateNotAfter-->
+    <DataTemplate x:Key="DateNotAfterCellTemplate">
+        <Border
+            Style="{StaticResource BaseBorderStyle}"
+            DataContext="{Binding DateNotAfterUTC, Converter={StaticResource TimeConverter}}">
+            <TextBlock Style="{StaticResource BaseTextBlockStyle}"/>
+        </Border>
+    </DataTemplate>
+
+    <!--Шаблон ячейки RemainingTime-->
+    <DataTemplate x:Key="RemainingTimeCellTemplate">
+        <Border
+            Style="{StaticResource BaseBorderStyle}"
+            DataContext="{Binding RemainingTimeUntilEndKey, Converter={StaticResource PluralConverter}}">
+            <TextBlock Style="{StaticResource BaseTextBlockStyle}"/>
+        </Border>
+    </DataTemplate>
+
+    <!--Шаблон ячейки DateOfCopy-->
+    <DataTemplate x:Key="DateOfCopyCellTemplate">
+        <Border
+            Style="{StaticResource BaseBorderStyle}"
+            DataContext="{Binding DateOfCopyUTC, Converter={StaticResource TimeConverter}}">
+            <TextBlock Style="{StaticResource BaseTextBlockStyle}"/>
+        </Border>
+    </DataTemplate>
+
+    <!--Шаблон ячейки ElapsedTime-->
+    <DataTemplate x:Key="ElapsedTimeCellTemplate">
+        <Border
+            Style="{StaticResource BaseBorderStyle}"
+            DataContext="{Binding ElapsedTimeAfterCopy, Converter={StaticResource PluralConverter}}">
+            <TextBlock Style="{StaticResource BaseTextBlockStyle}"/>
+        </Border>
+    </DataTemplate>
+
+    <!--Шаблон ячейки Path-->
+    <DataTemplate x:Key="PathCellTemplate">
+        <Border
+            Style="{StaticResource BaseBorderStyle}"
+            DataContext="{Binding Path}">
+            <TextBlock Style="{StaticResource BaseTextBlockStyle}"/>
+        </Border>
+    </DataTemplate>
+</ResourceDictionary>

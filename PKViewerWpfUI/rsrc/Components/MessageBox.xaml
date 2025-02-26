@@ -1,0 +1,187 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d"
+                    xmlns:vm="clr-namespace:WpfMvvm.ViewModels.MessageBox;assembly=WpfMvvm">
+    
+    <!--Окно MessageBox-->
+    <Window 
+        x:Key="MessageBox"
+        d:DataContext="{d:DesignInstance vm:MessageBoxVM}"
+        Title="{Binding Caption}" 
+        Width="600"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="ToolWindow"
+        ResizeMode="NoResize"
+        FontSize="14"
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="ClearType"
+        Foreground="{DynamicResource TextBrush}">
+        <Window.Resources>
+            <ResourceDictionary>
+                <!--ПРИСОЕДИНЕННЫЕ СЛОВАРИ-->
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="./../Styles/ScrollViewerStyles/ScrollViewerVertBarOnlyStyle.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Window.Resources>
+        <!--Основной Грид окна-->
+        <Grid 
+            Background="{DynamicResource MainPanelBgBrush}" 
+            DataContext="{Binding .}">
+            <!--Ресурсы Основного Грида-->
+            <Grid.Resources>
+                <!--Стиль бордера с items'ами-->
+                <Style x:Key="BodyBorderStyle" TargetType="{x:Type Border}">
+                    <Setter Property="Background" Value="{DynamicResource RightPanelBgBrush}"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource TextBrush}"/>
+                    <Setter Property="BorderThickness" Value="0 1"/>
+                    <Setter Property="Grid.RowSpan" Value="5"/>
+                </Style>
+                <!--Стиль надписей для title'ов и question-->
+                <Style x:Key="TextBlockStyle" TargetType="{x:Type TextBlock}">
+                    <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+                    <Setter Property="Margin" Value="20 15 20 3"/>
+                    <Setter Property="LineHeight" Value="14"/>
+                    <Setter Property="LineStackingStrategy" Value="BlockLineHeight"/>
+                    <Style.Triggers>
+                        <!--Триггер на скрытие, если без текста-->
+                        <Trigger Property="Text" Value="">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <!--Триггер на изменение отступов, если без вопроса-->
+                        <DataTrigger Binding="{Binding HasQuestion}" Value="False">
+                            <Setter Property="Margin" Value="20 12 20 15"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+                <!--Шаблон надписи в item'е.-->
+                <DataTemplate x:Key="ListItem">
+                    <TextBlock
+                        Text="{Binding ., Mode=OneWay}"
+                        MaxWidth="518"
+                        TextWrapping="WrapWithOverflow"
+                        HorizontalAlignment="Stretch"/>
+                </DataTemplate>
+                <!--Стиль ItemsControl'a-->
+                <Style x:Key="ItemsControlStyle" TargetType="ItemsControl">
+                    <Setter Property="Margin" Value="20 0 20 0"/>
+                    <Setter Property="MaxHeight" Value="162"/>
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="UseLayoutRounding" Value="True"/>
+                    <!--Шаблон ItemsControl'a-->
+                    <Setter Property="ItemsControl.Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ItemsControl}">
+                                <!--Внешний бордер ItemsControl'a-->
+                                <Border
+                                    BorderBrush="{DynamicResource MainGridLinesBrush}"
+                                    BorderThickness="1"
+                                    UseLayoutRounding="True">
+                                    <!--ScrollViewer для содержимого-->
+                                    <ScrollViewer
+                                        Style="{StaticResource ScrollViewerVertBarOnlyStyle}"
+                                        VerticalScrollBarVisibility="Auto"
+                                        Background="{DynamicResource MainPanelBgBrush}">
+                                        <!--Содержимое ItemsControl'a-->
+                                        <ItemsPresenter Margin="5 0 0 0" />
+                                    </ScrollViewer>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <!--Шаблон панели для Items'ов-->
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical"/>
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <!--Шаблон item'a-->
+                    <Setter Property="ItemTemplate" Value="{StaticResource ListItem}"/>
+                    <!--Триггеры ItemsControl'a-->
+                    <Style.Triggers>
+                        <!--Триггер на скрытие, если без item'ов-->
+                        <Trigger Property="HasItems" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <!--Триггер на изменение отступов, если без вопроса-->
+                        <DataTrigger Binding="{Binding HasQuestion}" Value="False">
+                            <Setter Property="Margin" Value="20 0 20 25"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Resources>
+            <!--Строки основоного Грида-->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <!--Содержимое основного Грида-->
+            <!--Внешний бордер грида (внутри содержит 5 строк)-->
+            <Border
+                x:Name="BodyBorder"
+                Style="{StaticResource BodyBorderStyle}"/>
+            
+            <!--Строка 0 [Title Ok]-->
+            <TextBlock
+                Grid.Row="0"
+                Style="{StaticResource TextBlockStyle}"
+                Text="{Binding TitleOk}"/>
+            <!--Строка 1 [Items Ok]-->
+            <ItemsControl
+                Grid.Row="1"
+                Style="{StaticResource ItemsControlStyle}"
+                ItemsSource="{Binding ItemsOk}">
+            </ItemsControl>
+            
+            <!--Строка 2 [Title Bad]-->
+            <TextBlock
+                Grid.Row="2"
+                Style="{StaticResource TextBlockStyle}"
+                Text="{Binding TitleError}"/>
+            <!--Строка 3 [Items Bad]-->
+            <ItemsControl
+                Grid.Row="3"
+                Style="{StaticResource ItemsControlStyle}"
+                ItemsSource="{Binding ItemsError}"/>
+            
+            <!--Строка 4 [Question]-->
+            <TextBlock
+                Grid.Row="4"
+                Style="{StaticResource TextBlockStyle}"
+                Margin="20 15 20 15"
+                Text="{Binding Question}"/>
+            
+            <!--Строка 5 [Buttons]-->
+            <ItemsControl
+                Grid.Row="5"
+                ItemsSource="{Binding ButtonVMs}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button
+                            Content="{Binding Caption}"
+                            Command="{Binding Command}"
+                            CommandParameter="{Binding Parameter}"
+                            Margin="7"
+                            Padding="10 3"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+    </Window>
+</ResourceDictionary>

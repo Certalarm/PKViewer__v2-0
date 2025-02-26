@@ -1,0 +1,25 @@
+﻿<Application xmlns:windows="clr-namespace:System.Windows;assembly=PresentationFramework"
+             x:Class="PKViewerWpfUI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:PKViewerWpfUI"
+             xmlns:cnvrt="clr-namespace:WpfMvvm.Infrastructure.Converters;assembly=WpfMvvm"
+             StartupUri="MainWindow.xaml">
+    
+    <Application.Resources>
+        <ResourceDictionary>
+            <!--Конвертер версия сборки в строку-->
+            <cnvrt:SelfInfoConverter x:Key="SelfInfoConverter"/>
+            <!--Присоединенные словари-->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="rsrc/AppStyles.xaml"/>
+                <ResourceDictionary Source="rsrc/Brushes/CommonBrushes.xaml"/>
+                <ResourceDictionary Source="rsrc/Components/MessageBox.xaml"/>
+
+                <!--ОТКЛЮЧИТЬ ПРИ РЕЛИЗЕ !!!-->
+                <ResourceDictionary Source="pack://application:,,,/rsrc/Brushes/LightTheme.xaml"/>
+                <!--<ResourceDictionary Source="pack://application:,,,/Ru-ru;component/Strings.xaml"/>-->
+            </ResourceDictionary.MergedDictionaries> 
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

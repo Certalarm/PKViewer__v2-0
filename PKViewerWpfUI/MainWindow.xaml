@@ -1,0 +1,55 @@
+﻿<Window x:Class="PKViewer.MainWindow"
+        xmlns:windows="clr-namespace:System.Windows;assembly=PresentationFramework"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PKViewer" 
+        xmlns:vm="clr-namespace:WpfMvvm.ViewModels.MainWindow;assembly=WpfMvvm"
+        
+        d:DataContext="{d:DesignInstance vm:MainWindowVM}"
+        Name="MainForm"
+        Height="570" Width="798"
+        MinHeight="550" MinWidth="794"
+        Title="{Binding WindowTitle, Converter={StaticResource SelfInfoConverter}, Mode=OneTime, IsAsync=True}" 
+        Icon="{Binding WindowIcon, Mode=OneTime, IsAsync=True}"
+        WindowStartupLocation="CenterScreen"
+        Foreground="{DynamicResource TextBrush}">
+    <!--Привязка вьюмодели-->
+    <Window.DataContext>
+        <vm:MainWindowVM/>
+    </Window.DataContext>
+    <!--Ресурсы окна-->
+    <Window.Resources>
+        <ResourceDictionary>
+            <!--Присоединенные словари-->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="./rsrc/Components/MainListView.xaml"/>
+                <ResourceDictionary Source="./rsrc/Components/MainStatusBar.xaml"/>
+                <ResourceDictionary Source="./rsrc/Components/MainRightPanel.xaml"/>
+                <ResourceDictionary Source="./rsrc/Components/MainTopPanel.xaml"/>
+                <ResourceDictionary Source="./rsrc/Styles/ListViewStyles/HeaderStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <!--Стиль заголовков ListView'а (присоединены обработчики событий)-->
+            <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource BaseHeaderStyle}" >
+                <!--Обработчик по щелчку на заголовке-->
+                <EventSetter
+                    Event="GridViewColumnHeader.Click"
+                    Handler="ColumnHeaderClickedHandler"/>
+                <!--Обработчик на изменение ширины колонки-->
+                <EventSetter
+                    Event="GridViewColumnHeader.SizeChanged"
+                    Handler="ColumnHeaderSizeChangedHandler"/>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <!--Содержимое окна-->
+    <DockPanel 
+        UseLayoutRounding="True">
+        <StaticResource ResourceKey="MainStatusBar"/>
+        <StaticResource ResourceKey="MainRightPanel"/>
+        <StaticResource ResourceKey="MainTopPanel"/>
+        <StaticResource ResourceKey="MainListView"/>
+    </DockPanel>
+</Window>

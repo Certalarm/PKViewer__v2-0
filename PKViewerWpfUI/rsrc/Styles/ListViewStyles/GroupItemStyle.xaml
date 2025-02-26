@@ -1,0 +1,57 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:cnvrt="clr-namespace:WpfMvvm.Infrastructure.Converters;assembly=WpfMvvm">
+
+    <!--Стиль надписи в заголовке Expander'a-->
+    <TextBlock 
+        x:Key="TxtBlock"
+        x:Shared ="False"
+        LineHeight="0.8" 
+        FontWeight="Bold" 
+        VerticalAlignment="Bottom">
+            <Run Text="{DynamicResource CSP}"/><Run Text="{Binding Name, StringFormat=': {0},', Mode=OneWay}"/>
+            <Run Text="{DynamicResource Containers}"/><Run Text="{Binding ItemCount, StringFormat=': {0}', Mode=OneWay}"/>
+            <Run Text="{DynamicResource Pcs}"/>
+    </TextBlock>
+
+    <!--Стиль GroupItem в ListView-->
+    <Style x:Key="GroupItemStyle" TargetType="{x:Type GroupItem}">
+        <Style.Resources>
+            <ResourceDictionary>
+                <!--Присоединенные словари-->
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="./ExpanderStyle.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+                <!--Конвертер на group IsChecked (неявный)-->
+                <cnvrt:ListViewGroupIsCheckedConverter x:Key="GroupItemConverter"/>
+            </ResourceDictionary>
+        </Style.Resources>
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Margin" Value="0"/>
+        <!--Шаблон GroupItem в ListView-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <!--Основной Expander-->
+                    <Expander 
+                        Style="{StaticResource LVExpanderStyle}"
+                        IsExpanded="True">
+                        <!--Заголовок Expander'a-->
+                        <Expander.Header>
+                            <CheckBox Content="{StaticResource TxtBlock}">
+                                <CheckBox.Tag>
+                                    <MultiBinding Converter="{StaticResource GroupItemConverter}" Mode="OneWay">
+                                        <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}" Mode="OneWay"/>
+                                        <Binding Path="DataContext.Name" RelativeSource="{RelativeSource AncestorType=GroupItem}" Mode="OneWay"/>
+                                    </MultiBinding>
+                                </CheckBox.Tag>
+                            </CheckBox>
+                        </Expander.Header>
+                        <!--Предстаавление Item'ов-->
+                        <ItemsPresenter Margin="0"/>
+                    </Expander>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
